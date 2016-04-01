@@ -15,7 +15,7 @@ public class UserDaoImpl {
 	public int login(String username, String password) {
 		int b = -1;
 		GetConn getConn = new GetConn();
-		ResultSet rs = null;
+		ResultSet rs = null, rs1 = null;
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
@@ -24,7 +24,15 @@ public class UserDaoImpl {
 			ps.setString(2, password);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				b = rs.getInt(7);
+				b = 0;
+			}
+			PreparedStatement ps1 = conn
+					.prepareStatement("select * from designer_info where username=? and password=?");
+			ps1.setString(1, username);
+			ps1.setString(2, password);
+			rs1 = ps1.executeQuery();
+			if (rs1.next()) {
+				b = 1;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -86,7 +94,7 @@ public class UserDaoImpl {
 	public boolean check(String username) {
 		boolean b = false;
 		GetConn getConn = new GetConn();
-		ResultSet rs = null;
+		ResultSet rs = null, rs1 = null;
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
@@ -94,7 +102,12 @@ public class UserDaoImpl {
 			ps.setString(1, username);
 
 			rs = ps.executeQuery();
-			if (rs.next()) {
+			PreparedStatement ps1 = conn
+					.prepareStatement("select * from designer_info where username=?");
+			ps1.setString(1, username);
+
+			rs1 = ps1.executeQuery();
+			if (rs.next() || rs1.next()) {
 				b = true;
 			} else {
 				b = false;
