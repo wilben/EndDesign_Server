@@ -56,14 +56,24 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>HeaderNewsJsonServlet</servlet-name>
-		<servlet-class>com.gem.hsx.servlet.HeaderNewsJsonServlet</servlet-class>
+		<servlet-name>AllProject</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.AllProject</servlet-class>
 	</servlet>
 
 	<servlet>
 		<servlet-name>Works</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.Works</servlet-class>
 	</servlet>
+
+	<servlet>
+		<servlet-name>WorkDetail</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.WorkDetail</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WorkDetail</servlet-name>
+		<url-pattern>/WorkDetail</url-pattern>
+	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>Works</servlet-name>
 		<url-pattern>/Works</url-pattern>
@@ -74,17 +84,16 @@
 		<url-pattern>/DesignerDetail</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>HeaderNewsJsonServlet</servlet-name>
-		<url-pattern>/HeaderNewsJsonServlet</url-pattern>
+		<servlet-name>AllProject</servlet-name>
+		<url-pattern>/AllProject</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<display-name>DesignerJsonServlet</display-name>
-		<servlet-name>DesignerJsonServlet</servlet-name>
-		<servlet-class>com.gem.hsx.servlet.DesignerJsonServlet</servlet-class>
+		<servlet-name>AllDesigner</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.AllDesigner</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>DesignerJsonServlet</servlet-name>
-		<url-pattern>/DesignerJsonServlet</url-pattern>
+		<servlet-name>AllDesigner</servlet-name>
+		<url-pattern>/AllDesigner</url-pattern>
 	</servlet-mapping>
 
 

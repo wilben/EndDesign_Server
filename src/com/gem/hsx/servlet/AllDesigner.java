@@ -12,28 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-import com.gem.hsx.bean.ItemEntity;
-import com.gem.hsx.utils.HeaderNewsService;
+import com.gem.hsx.bean.Designer;
+import com.gem.hsx.daoimpl.UserDaoImpl;
 
-public class HeaderNewsJsonServlet extends HttpServlet {
+public class AllDesigner extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public HeaderNewsJsonServlet() {
+	public AllDesigner() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		HeaderNewsService headerNewsService = new HeaderNewsService();
 		response.setContentType("text/html; Charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		List<ItemEntity> headerNews = headerNewsService.getHeaderNews();
+		UserDaoImpl userDaoImpl = new UserDaoImpl();
+		List<Designer> designerList = userDaoImpl.selectAllDesigner();
 		JSONObject jsonObject = new JSONObject();
 		try {
-			jsonObject.put("case", headerNews);
+			jsonObject.put("allDesigner", designerList);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

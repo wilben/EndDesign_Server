@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gem.hsx.bean.Case;
 import com.gem.hsx.bean.Designer;
 import com.gem.hsx.bean.User;
 import com.gem.hsx.bean.Work;
@@ -271,6 +272,60 @@ public class UserDaoImpl {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public List<String> getWorkDetail(int workId) {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		ResultSet rs = null;
+		List<String> list = new ArrayList<String>();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from work_info where workId=?");
+			ps.setInt(1, workId);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				list.add(rs.getString(2));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<Case> selectAllCase() {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		ResultSet rs = null, rs1 = null;
+		Case caseItem;
+		ArrayList<String> imageList;
+		List<Case> caseList = new ArrayList<Case>();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from project_view");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				caseItem = new Case();
+				caseItem.setAvatar(rs.getString(1));
+				caseItem.setUsername(rs.getString(2));
+				caseItem.setDescription(rs.getString(3));
+				PreparedStatement ps1 = conn
+						.prepareStatement("select * from test.work_info where workId =?");
+				ps1.setInt(1, rs.getInt(4));
+				rs1 = ps1.executeQuery();
+				imageList = new ArrayList<String>();
+				while (rs1.next()) {
+					imageList.add(rs1.getString(2));
+				}
+				caseItem.setImageUrls(imageList);
+				caseList.add(caseItem);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return caseList;
 	}
 
 }
