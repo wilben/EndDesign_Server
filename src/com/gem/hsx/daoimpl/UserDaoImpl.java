@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.gem.hsx.bean.Designer;
 import com.gem.hsx.bean.User;
+import com.gem.hsx.bean.Work;
 import com.gem.hsx.db.GetConn;
 
 public class UserDaoImpl {
@@ -245,6 +246,31 @@ public class UserDaoImpl {
 			e.printStackTrace();
 		}
 		return designer;
+	}
+
+	public List<Work> getWorks(String username) {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		ResultSet rs = null;
+		List<Work> list = new ArrayList<Work>();
+		Work work;
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from work_view where username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				work = new Work();
+				work.setImageUrl(rs.getString(4));
+				work.setTitle(rs.getString(3));
+				work.setWorkId(rs.getInt(2));
+				list.add(work);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }
