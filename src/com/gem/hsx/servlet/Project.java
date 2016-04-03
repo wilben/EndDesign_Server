@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,14 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-import com.gem.hsx.bean.Project;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
-public class WorkDetail extends HttpServlet {
+public class Project extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public WorkDetail() {
+	public Project() {
 		super();
 	}
 
@@ -32,7 +32,10 @@ public class WorkDetail extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		StringBuffer jString = new StringBuffer();
 		String line = null;
-		String workId = null;
+		String username = null;
+		String position = null;
+		List<com.gem.hsx.bean.Project> projectList;
+		int state = -1;
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
@@ -46,18 +49,38 @@ public class WorkDetail extends HttpServlet {
 		if (str.length() != 0) {
 			try {
 				JSONObject jsonObject = JSONObject.fromObject(str);
-				workId = jsonObject.getString("workId");
+				username = jsonObject.getString("username");
+				position = jsonObject.getString("position");
+				switch (Integer.parseInt(position)) {
+				case 0:
+					state = 3;
+					break;
+				case 1:
+					state = 0;
+					break;
+				case 2:
+					state = 1;
+					break;
+				case 3:
+					state = 2;
+					break;
+				default:
+					break;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			Project project = userDaoImpl.getWorkDetail(Integer
-					.parseInt(workId));
+			if (state != 3) {
+				projectList = userDaoImpl.getProjects(username, state);
+			} else {
+				projectList = userDaoImpl.getProjects(username);
+			}
 			JSONObject jsonObject = new JSONObject();
 			try {
-				jsonObject.put("workdetail", project);
+				jsonObject.put("projects", projectList);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

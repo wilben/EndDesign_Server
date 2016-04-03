@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.gem.hsx.bean.Case;
 import com.gem.hsx.bean.Designer;
+import com.gem.hsx.bean.Project;
 import com.gem.hsx.bean.User;
 import com.gem.hsx.bean.Work;
 import com.gem.hsx.db.GetConn;
@@ -258,14 +259,14 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("select * from work_view where username=?");
+					.prepareStatement("select * from work_view where designername=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				work = new Work();
-				work.setImageUrl(rs.getString(4));
-				work.setTitle(rs.getString(3));
-				work.setWorkId(rs.getInt(2));
+				work.setWorkId(rs.getInt(1));
+				work.setTitle(rs.getString(2));
+				work.setImageUrl(rs.getString(3));
 				list.add(work);
 			}
 		} catch (SQLException e) {
@@ -274,24 +275,38 @@ public class UserDaoImpl {
 		return list;
 	}
 
-	public List<String> getWorkDetail(int workId) {
+	public Project getWorkDetail(int workId) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
-		ResultSet rs = null;
-		List<String> list = new ArrayList<String>();
+		ResultSet rs = null, rs1 = null;
+		ArrayList<String> list = new ArrayList<String>();
+		Project project = new Project();
+		;
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("select * from work_info where workId=?");
+					.prepareStatement("select * from workdetail_view where workId=?");
 			ps.setInt(1, workId);
 			rs = ps.executeQuery();
-			while (rs.next()) {
-				list.add(rs.getString(2));
+			if (rs.next()) {
+				project.setTitle(rs.getString(2));
+				project.setUsername(rs.getString(3));
+				project.setTime(rs.getString(4));
+				project.setDescription(rs.getString(5));
+				project.setState(rs.getInt(6));
 			}
+			PreparedStatement ps1 = conn
+					.prepareStatement("select * from work_info where workId=?");
+			ps1.setInt(1, workId);
+			rs1 = ps1.executeQuery();
+			while (rs1.next()) {
+				list.add(rs1.getString(2));
+			}
+			project.setImageUrls(list);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return list;
+		return project;
 	}
 
 	public List<Case> selectAllCase() {
@@ -328,4 +343,60 @@ public class UserDaoImpl {
 		return caseList;
 	}
 
+	public List<com.gem.hsx.bean.Project> getProjects(String username, int state) {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		ResultSet rs = null;
+		Project project;
+		List<Project> projectList = new ArrayList<Project>();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from projects_view where username =? and state =?");
+			ps.setString(1, username);
+			ps.setInt(2, state);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				project = new Project();
+				project.setWorkId(rs.getInt(1));
+				project.setImage(rs.getString(2));
+				project.setTitle(rs.getString(3));
+				project.setTime(rs.getString(4));
+				project.setUsername(rs.getString(5));
+				project.setState(rs.getInt(7));
+				projectList.add(project);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return projectList;
+	}
+
+	public List<com.gem.hsx.bean.Project> getProjects(String username) {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		ResultSet rs = null;
+		Project project;
+		List<Project> projectList = new ArrayList<Project>();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from projects_view where username =? ");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				project = new Project();
+				project.setWorkId(rs.getInt(1));
+				project.setImage(rs.getString(2));
+				project.setTitle(rs.getString(3));
+				project.setTime(rs.getString(4));
+				project.setUsername(rs.getString(5));
+				project.setState(rs.getInt(7));
+				projectList.add(project);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return projectList;
+	}
 }
