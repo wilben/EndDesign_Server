@@ -478,4 +478,49 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	public String saveStyle(String username, String style) {
+		String result = null;
+		GetConn getConn = new GetConn();
+		int num = 0;
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("update user_info set style=?  where username=?");
+			ps.setString(1, style);
+			ps.setString(2, username);
+
+			num = ps.executeUpdate();
+			if (num != 0) {
+				result = "t";
+			} else {
+				result = "f";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public String getStyle(String username) {
+		String result = null;
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		ResultSet rs = null;
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select style from user_info  where username=?");
+			ps.setString(1, username);
+
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				result = rs.getString(1);
+			} else {
+				result = "";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 }
