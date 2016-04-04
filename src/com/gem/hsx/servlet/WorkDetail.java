@@ -33,6 +33,7 @@ public class WorkDetail extends HttpServlet {
 		StringBuffer jString = new StringBuffer();
 		String line = null;
 		String workId = null;
+		String state = null;
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
@@ -47,14 +48,15 @@ public class WorkDetail extends HttpServlet {
 			try {
 				JSONObject jsonObject = JSONObject.fromObject(str);
 				workId = jsonObject.getString("workId");
+				state = jsonObject.getString("state");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			Project project = userDaoImpl.getWorkDetail(Integer
-					.parseInt(workId));
+			Project project = userDaoImpl.getWorkDetail(
+					Integer.parseInt(workId), Integer.parseInt(state));
 			JSONObject jsonObject = new JSONObject();
 			try {
 				jsonObject.put("workdetail", project);

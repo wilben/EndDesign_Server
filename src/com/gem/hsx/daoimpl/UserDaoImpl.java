@@ -11,7 +11,6 @@ import com.gem.hsx.bean.Case;
 import com.gem.hsx.bean.Designer;
 import com.gem.hsx.bean.Project;
 import com.gem.hsx.bean.User;
-import com.gem.hsx.bean.Work;
 import com.gem.hsx.db.GetConn;
 
 public class UserDaoImpl {
@@ -250,12 +249,12 @@ public class UserDaoImpl {
 		return designer;
 	}
 
-	public List<Work> getWorks(String username) {
+	public List<Project> getWorks(String username) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
 		ResultSet rs = null;
-		List<Work> list = new ArrayList<Work>();
-		Work work;
+		List<Project> list = new ArrayList<Project>();
+		Project work;
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
@@ -263,10 +262,11 @@ public class UserDaoImpl {
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				work = new Work();
+				work = new Project();
 				work.setWorkId(rs.getInt(1));
 				work.setTitle(rs.getString(2));
-				work.setImageUrl(rs.getString(3));
+				work.setImage(rs.getString(3));
+				work.setState(2);
 				list.add(work);
 			}
 		} catch (SQLException e) {
@@ -275,34 +275,46 @@ public class UserDaoImpl {
 		return list;
 	}
 
-	public Project getWorkDetail(int workId) {
+	public Project getWorkDetail(int workId, int state) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
 		ResultSet rs = null, rs1 = null;
 		ArrayList<String> list = new ArrayList<String>();
 		Project project = new Project();
-		;
 		Connection conn = getConn.getConnection();
 		try {
-			PreparedStatement ps = conn
-					.prepareStatement("select * from workdetail_view where workId=?");
-			ps.setInt(1, workId);
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				project.setTitle(rs.getString(2));
-				project.setUsername(rs.getString(3));
-				project.setTime(rs.getString(4));
-				project.setDescription(rs.getString(5));
-				project.setState(rs.getInt(6));
+			if (state == 1 || state == 2) {
+				PreparedStatement ps = conn
+						.prepareStatement("select * from workdetail_view where workId=?");
+				ps.setInt(1, workId);
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					project.setTitle(rs.getString(2));
+					project.setUsername(rs.getString(3));
+					project.setTime(rs.getString(4));
+					project.setDescription(rs.getString(5));
+					project.setState(rs.getInt(6));
+				}
+				PreparedStatement ps1 = conn
+						.prepareStatement("select * from work_info where workId=?");
+				ps1.setInt(1, workId);
+				rs1 = ps1.executeQuery();
+				while (rs1.next()) {
+					list.add(rs1.getString(2));
+				}
+				project.setImageUrls(list);
+			} else {
+				PreparedStatement ps = conn
+						.prepareStatement("select * from work where workId=?");
+				ps.setInt(1, workId);
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					project.setTitle(rs.getString(3));
+					project.setUsername(rs.getString(7));
+					project.setTime(rs.getString(2));
+					project.setState(rs.getInt(5));
+				}
 			}
-			PreparedStatement ps1 = conn
-					.prepareStatement("select * from work_info where workId=?");
-			ps1.setInt(1, workId);
-			rs1 = ps1.executeQuery();
-			while (rs1.next()) {
-				list.add(rs1.getString(2));
-			}
-			project.setImageUrls(list);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -346,57 +358,100 @@ public class UserDaoImpl {
 	public List<com.gem.hsx.bean.Project> getProjects(String username, int state) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
-		ResultSet rs = null;
+		ResultSet rs = null, rs1 = null, rs2 = null;
 		Project project;
+		PreparedStatement ps = null;
 		List<Project> projectList = new ArrayList<Project>();
 		Connection conn = getConn.getConnection();
 		try {
-			PreparedStatement ps = conn
-					.prepareStatement("select * from projects_view where username =? and state =?");
-			ps.setString(1, username);
-			ps.setInt(2, state);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				project = new Project();
-				project.setWorkId(rs.getInt(1));
-				project.setImage(rs.getString(2));
-				project.setTitle(rs.getString(3));
-				project.setTime(rs.getString(4));
-				project.setUsername(rs.getString(5));
-				project.setState(rs.getInt(7));
-				projectList.add(project);
+			if (state == 1 || state == 2) {
+				ps = conn
+						.prepareStatement("select * from projects_view where username =? and state =?");
+				ps.setString(1, username);
+				ps.setInt(2, state);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					project = new Project();
+					project.setWorkId(rs.getInt(1));
+					if (state != 0) {
+						project.setImage(rs.getString(4));
+					}
+					project.setTitle(rs.getString(3));
+					project.setTime(rs.getString(2));
+					project.setUsername(rs.getString(7));
+					project.setState(rs.getInt(5));
+					projectList.add(project);
+				}
+			} else if (state == 3) {
+				ps = conn
+						.prepareStatement("select * from projects_view where username =? and state =1");
+				ps.setString(1, username);
+				rs1 = ps.executeQuery();
+				ps = conn
+						.prepareStatement("select * from projects_view where username =? and state =2");
+				ps.setString(1, username);
+				rs2 = ps.executeQuery();
+				ps = conn
+						.prepareStatement("select * from work where username =? and state =0");
+				ps.setString(1, username);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					project = new Project();
+					project.setWorkId(rs.getInt(1));
+					if (state != 0) {
+						project.setImage(rs.getString(4));
+					}
+					project.setTitle(rs.getString(3));
+					project.setTime(rs.getString(2));
+					project.setUsername(rs.getString(7));
+					project.setState(rs.getInt(5));
+					projectList.add(project);
+				}
+				while (rs1.next()) {
+					project = new Project();
+					project.setWorkId(rs1.getInt(1));
+					if (state != 0) {
+						project.setImage(rs1.getString(4));
+					}
+					project.setTitle(rs1.getString(3));
+					project.setTime(rs1.getString(2));
+					project.setUsername(rs1.getString(7));
+					project.setState(rs1.getInt(5));
+					projectList.add(project);
+				}
+				while (rs2.next()) {
+					project = new Project();
+					project.setWorkId(rs2.getInt(1));
+					if (state != 0) {
+						project.setImage(rs2.getString(4));
+					}
+					project.setTitle(rs2.getString(3));
+					project.setTime(rs2.getString(2));
+					project.setUsername(rs2.getString(7));
+					project.setState(rs2.getInt(5));
+					projectList.add(project);
+				}
+			} else {
+				ps = conn
+						.prepareStatement("select * from work where username =? and state =?");
+				ps.setString(1, username);
+				ps.setInt(2, state);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					project = new Project();
+					project.setWorkId(rs.getInt(1));
+					project.setTitle(rs.getString(3));
+					project.setTime(rs.getString(2));
+					project.setUsername(rs.getString(7));
+					project.setState(rs.getInt(5));
+					projectList.add(project);
+				}
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return projectList;
 	}
 
-	public List<com.gem.hsx.bean.Project> getProjects(String username) {
-		// TODO Auto-generated method stub
-		GetConn getConn = new GetConn();
-		ResultSet rs = null;
-		Project project;
-		List<Project> projectList = new ArrayList<Project>();
-		Connection conn = getConn.getConnection();
-		try {
-			PreparedStatement ps = conn
-					.prepareStatement("select * from projects_view where username =? ");
-			ps.setString(1, username);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				project = new Project();
-				project.setWorkId(rs.getInt(1));
-				project.setImage(rs.getString(2));
-				project.setTitle(rs.getString(3));
-				project.setTime(rs.getString(4));
-				project.setUsername(rs.getString(5));
-				project.setState(rs.getInt(7));
-				projectList.add(project);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return projectList;
-	}
 }

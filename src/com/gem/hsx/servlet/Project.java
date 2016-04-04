@@ -73,11 +73,7 @@ public class Project extends HttpServlet {
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			if (state != 3) {
-				projectList = userDaoImpl.getProjects(username, state);
-			} else {
-				projectList = userDaoImpl.getProjects(username);
-			}
+			projectList = userDaoImpl.getProjects(username, state);
 			JSONObject jsonObject = new JSONObject();
 			try {
 				jsonObject.put("projects", projectList);

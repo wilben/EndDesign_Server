@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-import com.gem.hsx.bean.Work;
+import com.gem.hsx.bean.Project;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
 public class Works extends HttpServlet {
@@ -54,7 +54,7 @@ public class Works extends HttpServlet {
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			List<Work> listWork = userDaoImpl.getWorks(username);
+			List<Project> listWork = userDaoImpl.getWorks(username);
 			JSONObject jsonObject = new JSONObject();
 			try {
 				jsonObject.put("works", listWork);
