@@ -6,7 +6,8 @@ public class Project {
 	private String image; // 封面
 	private String title; // 标题
 	private String time; // 时间
-	private String username;// 设计师
+	private String designername;
+	private String username;
 	private int workId;
 	private String description;
 	private ArrayList<String> imageUrls; // 九宫格图片的URL集合
@@ -14,7 +15,7 @@ public class Project {
 
 	public Project(String image, String title, String time, String username,
 			int workId, String description, ArrayList<String> imageUrls,
-			int state) {
+			int state, String designername) {
 		super();
 		this.image = image;
 		this.title = title;
@@ -24,10 +25,19 @@ public class Project {
 		this.description = description;
 		this.imageUrls = imageUrls;
 		this.state = state;
+		this.designername = designername;
 	}
 
 	public Project() {
 		super();
+	}
+
+	public String getDesignername() {
+		return designername;
+	}
+
+	public void setDesignername(String designername) {
+		this.designername = designername;
 	}
 
 	public int getState() {

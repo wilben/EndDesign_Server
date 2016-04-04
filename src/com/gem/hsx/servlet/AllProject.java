@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-import com.gem.hsx.bean.Case;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
 public class AllProject extends HttpServlet {
@@ -30,7 +29,7 @@ public class AllProject extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		UserDaoImpl userDaoImpl = new UserDaoImpl();
-		List<Case> caseList = userDaoImpl.selectAllCase();
+		List<com.gem.hsx.bean.Project> caseList = userDaoImpl.selectAllCase();
 		JSONObject jsonObject = new JSONObject();
 		try {
 			jsonObject.put("allproject", caseList);

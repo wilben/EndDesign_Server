@@ -2,147 +2,145 @@ package com.gem.hsx.bean;
 
 public class Designer {
 
-	private String username;
-	private String password;
-	private String sex;
-	private String age;
-	private String avatar;
-	private String realname;
-	private int role;
-	private String concept;
-	private String motto;
-	private String style;
-	private String work;
-	private String period;
-	private String area;
+    private String username;
+    private String password;
+    private String sex;
+    private String age;
+    private int role;
+    private String realname;
+    private String avatar;
+    private String concept;
+    private String motto;
+    private String style;
+    private String work;
+    private String period;
+    private String area;
 
-	public String getConcept() {
-		return concept;
-	}
+    public String getConcept() {
+        return concept;
+    }
 
-	public void setConcept(String concept) {
-		this.concept = concept;
-	}
+    public void setConcept(String concept) {
+        this.concept = concept;
+    }
 
-	public String getMotto() {
-		return motto;
-	}
+    public String getMotto() {
+        return motto;
+    }
 
-	public void setMotto(String motto) {
-		this.motto = motto;
-	}
+    public void setMotto(String motto) {
+        this.motto = motto;
+    }
 
-	public String getStyle() {
-		return style;
-	}
+    public String getStyle() {
+        return style;
+    }
 
-	public void setStyle(String style) {
-		this.style = style;
-	}
+    public void setStyle(String style) {
+        this.style = style;
+    }
 
-	public String getWork() {
-		return work;
-	}
+    public String getWork() {
+        return work;
+    }
 
-	public void setWork(String work) {
-		this.work = work;
-	}
+    public void setWork(String work) {
+        this.work = work;
+    }
 
-	public String getPeriod() {
-		return period;
-	}
+    public String getPeriod() {
+        return period;
+    }
 
-	public void setPeriod(String period) {
-		this.period = period;
-	}
+    public void setPeriod(String period) {
+        this.period = period;
+    }
 
-	public String getArea() {
-		return area;
-	}
+    public String getArea() {
+        return area;
+    }
 
-	public void setArea(String area) {
-		this.area = area;
-	}
+    public void setArea(String area) {
+        this.area = area;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public int getRole() {
+        return role;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setRole(int role) {
+        this.role = role;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getRealname() {
+        return realname;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
 
-	public String getSex() {
-		return sex;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getAge() {
-		return age;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setAge(String age) {
-		this.age = age;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getAvatar() {
-		return avatar;
-	}
+    public String getSex() {
+        return sex;
+    }
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-	public Designer(String username, String password, String sex,
-			String realname, String age, String avatar, int role,
-			String concept, String motto, String style, String work,
-			String period, String area) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.sex = sex;
-		this.age = age;
-		this.realname = realname;
-		this.avatar = avatar;
-		this.role = role;
-		this.concept = concept;
-		this.motto = motto;
-		this.style = style;
-		this.work = work;
-		this.period = period;
-		this.area = area;
-	}
+    public String getAge() {
+        return age;
+    }
 
-	public Designer() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public void setAge(String age) {
+        this.age = age;
+    }
 
-	public String getRealname() {
-		return realname;
-	}
+    public String getAvatar() {
+        return avatar;
+    }
 
-	public void setRealname(String realname) {
-		this.realname = realname;
-	}
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
-	public int getRole() {
-		return role;
-	}
+    public Designer(String username, String password, String sex, String realname, String age, String avatar, int role, String concept, String motto, String style, String work, String period, String area) {
+        super();
+        this.username = username;
+        this.password = password;
+        this.sex = sex;
+        this.age = age;
+        this.realname = realname;
+        this.avatar = avatar;
+        this.role = role;
+        this.concept = concept;
+        this.motto = motto;
+        this.style = style;
+        this.work = work;
+        this.period = period;
+        this.area = area;
+    }
 
-	public void setRole(int role) {
-		this.role = role;
-	}
+    public Designer() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
 
 }

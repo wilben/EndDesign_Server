@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gem.hsx.bean.Case;
 import com.gem.hsx.bean.Designer;
 import com.gem.hsx.bean.Project;
 import com.gem.hsx.bean.User;
@@ -321,25 +320,25 @@ public class UserDaoImpl {
 		return project;
 	}
 
-	public List<Case> selectAllCase() {
+	public List<Project> selectAllCase() {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
 		ResultSet rs = null, rs1 = null;
-		Case caseItem;
+		Project caseItem;
 		ArrayList<String> imageList;
-		List<Case> caseList = new ArrayList<Case>();
+		List<Project> caseList = new ArrayList<Project>();
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
 					.prepareStatement("select * from project_view");
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				caseItem = new Case();
-				caseItem.setAvatar(rs.getString(1));
+				caseItem = new Project();
+				caseItem.setImage(rs.getString(1));
 				caseItem.setUsername(rs.getString(2));
 				caseItem.setDescription(rs.getString(3));
 				PreparedStatement ps1 = conn
-						.prepareStatement("select * from test.work_info where workId =?");
+						.prepareStatement("select * from work_info where workId =?");
 				ps1.setInt(1, rs.getInt(4));
 				rs1 = ps1.executeQuery();
 				imageList = new ArrayList<String>();
@@ -452,6 +451,31 @@ public class UserDaoImpl {
 			e.printStackTrace();
 		}
 		return projectList;
+	}
+
+	public boolean launchProject(Project project) {
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0;
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("insert work (time,title,state,username,designername) values  (?,?,?,?,?)");
+			ps.setString(1, project.getTime());
+			ps.setString(2, project.getTitle());
+			ps.setInt(3, project.getState());
+			ps.setString(4, project.getUsername());
+			ps.setString(5, project.getDesignername());
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
 	}
 
 }

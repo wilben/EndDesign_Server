@@ -74,6 +74,16 @@
 		<servlet-name>Project</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.Project</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>LaunchProject</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.LaunchProject</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LaunchProject</servlet-name>
+		<url-pattern>/LaunchProject</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>Project</servlet-name>
 		<url-pattern>/Project</url-pattern>
