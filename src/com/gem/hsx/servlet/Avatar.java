@@ -34,7 +34,7 @@ public class Avatar extends HttpServlet {
 		StringBuffer jString = new StringBuffer();
 		String line = null;
 		String username = null;
-		String password = null;
+		String role = null;
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
@@ -49,13 +49,15 @@ public class Avatar extends HttpServlet {
 			try {
 				JSONObject jsonObject = JSONObject.fromObject(str);
 				username = jsonObject.getString("username");
+				role = jsonObject.getString("role");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			String url = userDaoImpl.getAvatar(username);
+			String url = userDaoImpl
+					.getAvatar(username, Integer.parseInt(role));
 			System.out.println(url);
 			out.write(url);
 			out.flush();

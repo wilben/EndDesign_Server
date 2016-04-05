@@ -35,6 +35,7 @@ public class ChangePwd extends HttpServlet {
 		String line = null;
 		String username = null;
 		String password = null;
+		String role = null;
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
@@ -50,13 +51,14 @@ public class ChangePwd extends HttpServlet {
 				JSONObject jsonObject = JSONObject.fromObject(str);
 				username = jsonObject.getString("username");
 				password = jsonObject.getString("password");
+				role = jsonObject.getString("role");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			String result = userDaoImpl.changePwd(username, password);
+			String result = userDaoImpl.changePwd(username, password, role);
 			out.write(result);
 			out.flush();
 			out.close();

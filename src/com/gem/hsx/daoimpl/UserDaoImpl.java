@@ -120,15 +120,21 @@ public class UserDaoImpl {
 		return b;
 	}
 
-	public String getAvatar(String username) {
+	public String getAvatar(String username, int role) {
 		// TODO Auto-generated method stub
 		String url = null;
 		GetConn getConn = new GetConn();
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		Connection conn = getConn.getConnection();
 		try {
-			PreparedStatement ps = conn
-					.prepareStatement("select avatar from user_info where username=?");
+			if (role == 0) {
+				ps = conn
+						.prepareStatement("select avatar from user_info where username=?");
+			} else {
+				ps = conn
+						.prepareStatement("select avatar from designer_info where username=?");
+			}
 			ps.setString(1, username);
 
 			rs = ps.executeQuery();
@@ -141,14 +147,20 @@ public class UserDaoImpl {
 		return url;
 	}
 
-	public User getInfo(String username) {
+	public User getInfo(String username, String role) {
 		// TODO Auto-generated method stub
 		User user = new User();
 		GetConn getConn = new GetConn();
+		PreparedStatement ps = null;
 		Connection conn = getConn.getConnection();
 		try {
-			PreparedStatement ps = conn
-					.prepareStatement("select * from user_info where username=?");
+			if (role.equals("0")) {
+				ps = conn
+						.prepareStatement("select * from user_info where username=?");
+			} else {
+				ps = conn
+						.prepareStatement("select * from designer_info where username=?");
+			}
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -165,15 +177,22 @@ public class UserDaoImpl {
 		return user;
 	}
 
-	public String changePwd(String username, String password) {
+	public String changePwd(String username, String password, String role) {
 		// TODO Auto-generated method stub
 		String result = null;
 		GetConn getConn = new GetConn();
 		int num = 0;
+		PreparedStatement ps = null;
 		Connection conn = getConn.getConnection();
 		try {
-			PreparedStatement ps = conn
-					.prepareStatement("update user_info set password=?  where username=?");
+			if (role.equals("0")) {
+				ps = conn
+						.prepareStatement("update user_info set password=?  where username=?");
+			} else {
+				ps = conn
+						.prepareStatement("update designer_info set password=?  where username=?");
+
+			}
 			ps.setString(1, password);
 			ps.setString(2, username);
 
@@ -195,10 +214,18 @@ public class UserDaoImpl {
 		GetConn getConn = new GetConn();
 		int i = 0;
 		PreparedStatement ps;
-		String s1 = "update user_info set realname=?,age=?,sex=?,avatar=?  where username=?";
-		String s2 = "update user_info set realname=?,age=?,sex=?  where username=?";
+		String s1 = null;
+		String s2 = null;
 		Connection conn = getConn.getConnection();
 		try {
+			if (user.getRole() == 0) {
+				s1 = "update user_info set realname=?,age=?,sex=?,avatar=?  where username=?";
+				s2 = "update user_info set realname=?,age=?,sex=?  where username=?";
+			} else {
+				s1 = "update designer_info set realname=?,age=?,sex=?,avatar=?  where username=?";
+				s2 = "update designer_info set realname=?,age=?,sex=?  where username=?";
+			}
+
 			if (user.getAvatar().equals("")) {
 				ps = conn.prepareStatement(s2);
 				ps.setString(4, user.getUsername());
@@ -479,14 +506,20 @@ public class UserDaoImpl {
 		return b;
 	}
 
-	public String saveStyle(String username, String style) {
+	public String saveStyle(String username, String style, String role) {
 		String result = null;
 		GetConn getConn = new GetConn();
 		int num = 0;
+		PreparedStatement ps = null;
 		Connection conn = getConn.getConnection();
 		try {
-			PreparedStatement ps = conn
-					.prepareStatement("update user_info set style=?  where username=?");
+			if (role.equals("0")) {
+				ps = conn
+						.prepareStatement("update user_info set style=?  where username=?");
+			} else {
+				ps = conn
+						.prepareStatement("update designer_info set style=?  where username=?");
+			}
 			ps.setString(1, style);
 			ps.setString(2, username);
 
@@ -502,14 +535,20 @@ public class UserDaoImpl {
 		return result;
 	}
 
-	public String getStyle(String username) {
+	public String getStyle(String username, String role) {
 		String result = null;
 		GetConn getConn = new GetConn();
 		Connection conn = getConn.getConnection();
 		ResultSet rs = null;
+		PreparedStatement ps = null;
 		try {
-			PreparedStatement ps = conn
-					.prepareStatement("select style from user_info  where username=?");
+			if (role.equals("0")) {
+				ps = conn
+						.prepareStatement("select style from user_info  where username=?");
+			} else {
+				ps = conn
+						.prepareStatement("select style from designer_info  where username=?");
+			}
 			ps.setString(1, username);
 
 			rs = ps.executeQuery();

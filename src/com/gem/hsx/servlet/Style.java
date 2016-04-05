@@ -34,6 +34,7 @@ public class Style extends HttpServlet {
 		StringBuffer jString = new StringBuffer();
 		String line = null;
 		String username = null;
+		String role = null;
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
@@ -48,13 +49,14 @@ public class Style extends HttpServlet {
 			try {
 				JSONObject jsonObject = JSONObject.fromObject(str);
 				username = jsonObject.getString("username");
+				role = jsonObject.getString("role");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			String result = userDaoImpl.getStyle(username);
+			String result = userDaoImpl.getStyle(username,role);
 			out.write(result);
 			out.flush();
 			out.close();

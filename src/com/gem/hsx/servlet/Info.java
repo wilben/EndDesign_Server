@@ -36,6 +36,7 @@ public class Info extends HttpServlet {
 		StringBuffer jString = new StringBuffer();
 		String line = null;
 		String username = null;
+		String role = null;
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
@@ -50,13 +51,14 @@ public class Info extends HttpServlet {
 			try {
 				JSONObject jsonObject = JSONObject.fromObject(str);
 				username = jsonObject.getString("username");
+				role = jsonObject.getString("role");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			User user = userDaoImpl.getInfo(username);
+			User user = userDaoImpl.getInfo(username, role);
 
 			JSONObject jsonObject = new JSONObject();
 			try {

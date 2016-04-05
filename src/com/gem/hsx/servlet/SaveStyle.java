@@ -35,6 +35,7 @@ public class SaveStyle extends HttpServlet {
 		String line = null;
 		String username = null;
 		String style = null;
+		String role = null;
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
@@ -50,13 +51,14 @@ public class SaveStyle extends HttpServlet {
 				JSONObject jsonObject = JSONObject.fromObject(str);
 				username = jsonObject.getString("username");
 				style = jsonObject.getString("style");
+				role = jsonObject.getString("role");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			String result = userDaoImpl.saveStyle(username, style);
+			String result = userDaoImpl.saveStyle(username, style, role);
 			out.write(result);
 			out.flush();
 			out.close();
