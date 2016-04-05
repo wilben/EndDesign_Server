@@ -9,6 +9,7 @@ public class User {
 	private String avatar;
 	private String realname;
 	private int role;
+	private String style;
 
 	public String getUsername() {
 		return username;
@@ -51,7 +52,7 @@ public class User {
 	}
 
 	public User(String username, String password, String sex, String age,
-			String avatar, String realname, int role) {
+			String avatar, String realname, int role, String style) {
 		super();
 
 		this.username = username;
@@ -61,11 +62,20 @@ public class User {
 		this.avatar = avatar;
 		this.realname = realname;
 		this.role = role;
+		this.style = style;
 	}
 
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
 	}
 
 	public String getRealname() {

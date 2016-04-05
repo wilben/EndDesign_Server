@@ -48,7 +48,7 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("insert into user_info values (?,?,?,?,?,?,?)");
+					.prepareStatement("insert into user_info values (?,?,?,?,?,?,?,?)");
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getSex());
@@ -56,6 +56,7 @@ public class UserDaoImpl {
 			ps.setString(5, user.getAvatar());
 			ps.setString(6, user.getRealname());
 			ps.setInt(7, user.getRole());
+			ps.setString(8, user.getStyle());
 			i = ps.executeUpdate();
 			if (i > 0) {
 				b = true;
