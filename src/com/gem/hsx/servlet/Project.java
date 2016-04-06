@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -35,7 +36,7 @@ public class Project extends HttpServlet {
 		String username = null;
 		String position = null;
 		String role = null;
-		List<com.gem.hsx.bean.Project> projectList;
+		List<com.gem.hsx.bean.Project> projectList = null;
 		int state = -1;
 		try {
 			BufferedReader reader = request.getReader();
@@ -75,7 +76,12 @@ public class Project extends HttpServlet {
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			projectList = userDaoImpl.getProjects(username, state, role);
+			try {
+				projectList = userDaoImpl.getProjects(username, state, role);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			JSONObject jsonObject = new JSONObject();
 			try {
 				jsonObject.put("projects", projectList);

@@ -11,6 +11,7 @@ import com.gem.hsx.bean.Designer;
 import com.gem.hsx.bean.Project;
 import com.gem.hsx.bean.User;
 import com.gem.hsx.db.GetConn;
+import com.mysql.jdbc.Statement;
 
 public class UserDaoImpl {
 	public int login(String username, String password) {
@@ -308,6 +309,7 @@ public class UserDaoImpl {
 		ResultSet rs = null, rs1 = null;
 		ArrayList<String> list = new ArrayList<String>();
 		Project project = new Project();
+		boolean flag = true;
 		Connection conn = getConn.getConnection();
 		try {
 			if (state == 1 || state == 2) {
@@ -322,16 +324,18 @@ public class UserDaoImpl {
 					project.setState(rs.getInt(6));
 					project.setDesignername(rs.getString(3));
 					project.setUsername(rs.getString(7));
+					PreparedStatement ps1 = conn
+							.prepareStatement("select * from work_info where workId=?");
+					ps1.setInt(1, workId);
+					rs1 = ps1.executeQuery();
+					while (rs1.next()) {
+						list.add(rs1.getString(2));
+					}
+					project.setImageUrls(list);
+					flag = false;
 				}
-				PreparedStatement ps1 = conn
-						.prepareStatement("select * from work_info where workId=?");
-				ps1.setInt(1, workId);
-				rs1 = ps1.executeQuery();
-				while (rs1.next()) {
-					list.add(rs1.getString(2));
-				}
-				project.setImageUrls(list);
-			} else {
+			}
+			if (flag) {
 				PreparedStatement ps = conn
 						.prepareStatement("select * from work where workId=?");
 				ps.setInt(1, workId);
@@ -385,15 +389,17 @@ public class UserDaoImpl {
 	}
 
 	public List<com.gem.hsx.bean.Project> getProjects(String username,
-			int state, String role) {
+			int state, String role) throws SQLException {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
-		ResultSet rs = null, rs1 = null, rs2 = null;
+		ResultSet rs = null, rs1 = null, rs2 = null, rs4 = null;
 		Project project;
 		PreparedStatement ps = null;
 		String name = null;
 		List<Project> projectList = new ArrayList<Project>();
 		Connection conn = getConn.getConnection();
+		Statement stmt = (Statement) conn.createStatement();
+		String queryString = null;
 		try {
 			if (role.equals("0")) {
 				name = "username";
@@ -401,6 +407,7 @@ public class UserDaoImpl {
 				name = "designername";
 			}
 			if (state == 1 || state == 2) {
+
 				ps = conn.prepareStatement("select * from projects_view where "
 						+ name + "=? and state =?");
 				ps.setString(1, username);
@@ -409,15 +416,34 @@ public class UserDaoImpl {
 				while (rs.next()) {
 					project = new Project();
 					project.setWorkId(rs.getInt(1));
-					if (state != 0) {
-						project.setImage(rs.getString(4));
-					}
+					project.setImage(rs.getString(4));
 					project.setTitle(rs.getString(3));
 					project.setTime(rs.getString(2));
 					project.setUsername(rs.getString(6));
 					project.setDesignername(rs.getString(7));
 					project.setState(rs.getInt(5));
 					projectList.add(project);
+				}
+				if (state == 1) {
+					queryString = "select a.workId from  (select workId from work where state = 1 )as a where a.workId not in"
+							+ "(select workId from work_info group by workId)";
+					rs1 = stmt.executeQuery(queryString);
+					while (rs1.next()) {
+						ps = conn
+								.prepareStatement("select * from work where workId =?");
+						ps.setInt(1, rs1.getInt(1));
+						rs2 = ps.executeQuery();
+						if (rs2.next()) {
+							project = new Project();
+							project.setWorkId(rs2.getInt(1));
+							project.setTitle(rs2.getString(3));
+							project.setTime(rs2.getString(2));
+							project.setUsername(rs2.getString(6));
+							project.setDesignername(rs2.getString(7));
+							project.setState(rs2.getInt(5));
+							projectList.add(project);
+						}
+					}
 				}
 			} else if (state == 3) {
 				ps = conn.prepareStatement("select * from projects_view where "
@@ -428,29 +454,29 @@ public class UserDaoImpl {
 						+ name + "=? and state =2");
 				ps.setString(1, username);
 				rs2 = ps.executeQuery();
-				ps = conn.prepareStatement("select * from work where " + name
-						+ "=? and state =0");
-				ps.setString(1, username);
-				rs = ps.executeQuery();
-				while (rs.next()) {
-					project = new Project();
-					project.setWorkId(rs.getInt(1));
-					if (state != 0) {
-						project.setImage(rs.getString(4));
+				queryString = "select a.workId from  (select workId from work )as a where a.workId not in"
+						+ "(select workId from work_info group by workId)";
+				rs4 = stmt.executeQuery(queryString);
+				while (rs4.next()) {
+					ps = conn
+							.prepareStatement("select * from work where workId =?");
+					ps.setInt(1, rs4.getInt(1));
+					rs = ps.executeQuery();
+					while (rs.next()) {
+						project = new Project();
+						project.setWorkId(rs.getInt(1));
+						project.setTitle(rs.getString(3));
+						project.setTime(rs.getString(2));
+						project.setUsername(rs.getString(6));
+						project.setDesignername(rs.getString(7));
+						project.setState(rs.getInt(5));
+						projectList.add(project);
 					}
-					project.setTitle(rs.getString(3));
-					project.setTime(rs.getString(2));
-					project.setUsername(rs.getString(6));
-					project.setDesignername(rs.getString(7));
-					project.setState(rs.getInt(5));
-					projectList.add(project);
 				}
 				while (rs1.next()) {
 					project = new Project();
 					project.setWorkId(rs1.getInt(1));
-					if (state != 0) {
-						project.setImage(rs1.getString(4));
-					}
+					project.setImage(rs1.getString(4));
 					project.setTitle(rs1.getString(3));
 					project.setTime(rs1.getString(2));
 					project.setUsername(rs1.getString(6));
@@ -461,9 +487,7 @@ public class UserDaoImpl {
 				while (rs2.next()) {
 					project = new Project();
 					project.setWorkId(rs2.getInt(1));
-					if (state != 0) {
-						project.setImage(rs2.getString(4));
-					}
+					project.setImage(rs2.getString(4));
 					project.setTitle(rs2.getString(3));
 					project.setTime(rs2.getString(2));
 					project.setUsername(rs2.getString(6));
@@ -570,6 +594,31 @@ public class UserDaoImpl {
 				result = rs.getString(1);
 			} else {
 				result = "";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public String changeState(int workId, int state) {
+		// TODO Auto-generated method stub
+		String result = null;
+		GetConn getConn = new GetConn();
+		int num = 0;
+		PreparedStatement ps = null;
+		Connection conn = getConn.getConnection();
+		try {
+			ps = conn
+					.prepareStatement("update work set state=?  where workId=?");
+			ps.setInt(1, state);
+			ps.setInt(2, workId);
+
+			num = ps.executeUpdate();
+			if (num != 0) {
+				result = "t";
+			} else {
+				result = "f";
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

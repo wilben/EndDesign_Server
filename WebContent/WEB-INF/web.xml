@@ -69,46 +69,55 @@
 		<servlet-name>WorkDetail</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.WorkDetail</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>Project</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.Project</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>LaunchProject</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.LaunchProject</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>SaveStyle</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.SaveStyle</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>Style</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.Style</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>ChangeState</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.ChangeState</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangeState</servlet-name>
+		<url-pattern>/ChangeState</url-pattern>
+	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>Style</servlet-name>
 		<url-pattern>/Style</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>SaveStyle</servlet-name>
 		<url-pattern>/SaveStyle</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>LaunchProject</servlet-name>
 		<url-pattern>/LaunchProject</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>Project</servlet-name>
 		<url-pattern>/Project</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>WorkDetail</servlet-name>
 		<url-pattern>/WorkDetail</url-pattern>
