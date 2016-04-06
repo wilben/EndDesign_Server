@@ -344,6 +344,7 @@ public class UserDaoImpl {
 					project.setTitle(rs.getString(3));
 					project.setDesignername(rs.getString(7));
 					project.setUsername(rs.getString(6));
+					project.setDescription(rs.getString(4));
 					project.setTime(rs.getString(2));
 					project.setState(rs.getInt(5));
 				}
@@ -624,6 +625,45 @@ public class UserDaoImpl {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public boolean updateProject(Project project) {
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0, k = 1;
+		PreparedStatement ps;
+		String s1 = null;
+		String s2 = null;
+		String imageUrl = "";
+		ArrayList<String> list = project.getImageUrls();
+		Connection conn = getConn.getConnection();
+		try {
+			s1 = "update work set title=?,description=? where workId=?";
+			s2 = "insert work_info (image,workId) values (?,?) ";
+
+			ps = conn.prepareStatement(s1);
+			ps.setString(1, project.getTitle());
+			ps.setString(2, project.getDescription());
+			ps.setInt(3, project.getWorkId());
+			i = ps.executeUpdate();
+			if (list.size() > 0) {
+				for (int j = 0; j < list.size(); j++) {
+					imageUrl = list.get(j);
+					ps = conn.prepareStatement(s2);
+					ps.setString(1, imageUrl);
+					ps.setInt(2, project.getWorkId());
+					k = k * ps.executeUpdate();
+				}
+			}
+			if (i > 0 && k != 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
 	}
 
 }
