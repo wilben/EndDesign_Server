@@ -34,6 +34,7 @@ public class Project extends HttpServlet {
 		String line = null;
 		String username = null;
 		String position = null;
+		String role = null;
 		List<com.gem.hsx.bean.Project> projectList;
 		int state = -1;
 		try {
@@ -51,6 +52,7 @@ public class Project extends HttpServlet {
 				JSONObject jsonObject = JSONObject.fromObject(str);
 				username = jsonObject.getString("username");
 				position = jsonObject.getString("position");
+				role = jsonObject.getString("role");
 				switch (Integer.parseInt(position)) {
 				case 0:
 					state = 3;
@@ -73,7 +75,7 @@ public class Project extends HttpServlet {
 			}
 
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			projectList = userDaoImpl.getProjects(username, state);
+			projectList = userDaoImpl.getProjects(username, state, role);
 			JSONObject jsonObject = new JSONObject();
 			try {
 				jsonObject.put("projects", projectList);

@@ -317,10 +317,11 @@ public class UserDaoImpl {
 				rs = ps.executeQuery();
 				if (rs.next()) {
 					project.setTitle(rs.getString(2));
-					project.setUsername(rs.getString(3));
 					project.setTime(rs.getString(4));
 					project.setDescription(rs.getString(5));
 					project.setState(rs.getInt(6));
+					project.setDesignername(rs.getString(3));
+					project.setUsername(rs.getString(7));
 				}
 				PreparedStatement ps1 = conn
 						.prepareStatement("select * from work_info where workId=?");
@@ -337,7 +338,8 @@ public class UserDaoImpl {
 				rs = ps.executeQuery();
 				if (rs.next()) {
 					project.setTitle(rs.getString(3));
-					project.setUsername(rs.getString(7));
+					project.setDesignername(rs.getString(7));
+					project.setUsername(rs.getString(6));
 					project.setTime(rs.getString(2));
 					project.setState(rs.getInt(5));
 				}
@@ -382,18 +384,25 @@ public class UserDaoImpl {
 		return caseList;
 	}
 
-	public List<com.gem.hsx.bean.Project> getProjects(String username, int state) {
+	public List<com.gem.hsx.bean.Project> getProjects(String username,
+			int state, String role) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
 		ResultSet rs = null, rs1 = null, rs2 = null;
 		Project project;
 		PreparedStatement ps = null;
+		String name = null;
 		List<Project> projectList = new ArrayList<Project>();
 		Connection conn = getConn.getConnection();
 		try {
+			if (role.equals("0")) {
+				name = "username";
+			} else {
+				name = "designername";
+			}
 			if (state == 1 || state == 2) {
-				ps = conn
-						.prepareStatement("select * from projects_view where username =? and state =?");
+				ps = conn.prepareStatement("select * from projects_view where "
+						+ name + "=? and state =?");
 				ps.setString(1, username);
 				ps.setInt(2, state);
 				rs = ps.executeQuery();
@@ -405,21 +414,22 @@ public class UserDaoImpl {
 					}
 					project.setTitle(rs.getString(3));
 					project.setTime(rs.getString(2));
-					project.setUsername(rs.getString(7));
+					project.setUsername(rs.getString(6));
+					project.setDesignername(rs.getString(7));
 					project.setState(rs.getInt(5));
 					projectList.add(project);
 				}
 			} else if (state == 3) {
-				ps = conn
-						.prepareStatement("select * from projects_view where username =? and state =1");
+				ps = conn.prepareStatement("select * from projects_view where "
+						+ name + "=? and state =1");
 				ps.setString(1, username);
 				rs1 = ps.executeQuery();
-				ps = conn
-						.prepareStatement("select * from projects_view where username =? and state =2");
+				ps = conn.prepareStatement("select * from projects_view where "
+						+ name + "=? and state =2");
 				ps.setString(1, username);
 				rs2 = ps.executeQuery();
-				ps = conn
-						.prepareStatement("select * from work where username =? and state =0");
+				ps = conn.prepareStatement("select * from work where " + name
+						+ "=? and state =0");
 				ps.setString(1, username);
 				rs = ps.executeQuery();
 				while (rs.next()) {
@@ -430,7 +440,8 @@ public class UserDaoImpl {
 					}
 					project.setTitle(rs.getString(3));
 					project.setTime(rs.getString(2));
-					project.setUsername(rs.getString(7));
+					project.setUsername(rs.getString(6));
+					project.setDesignername(rs.getString(7));
 					project.setState(rs.getInt(5));
 					projectList.add(project);
 				}
@@ -442,7 +453,8 @@ public class UserDaoImpl {
 					}
 					project.setTitle(rs1.getString(3));
 					project.setTime(rs1.getString(2));
-					project.setUsername(rs1.getString(7));
+					project.setUsername(rs1.getString(6));
+					project.setDesignername(rs1.getString(7));
 					project.setState(rs1.getInt(5));
 					projectList.add(project);
 				}
@@ -454,13 +466,14 @@ public class UserDaoImpl {
 					}
 					project.setTitle(rs2.getString(3));
 					project.setTime(rs2.getString(2));
-					project.setUsername(rs2.getString(7));
+					project.setUsername(rs2.getString(6));
+					project.setDesignername(rs2.getString(7));
 					project.setState(rs2.getInt(5));
 					projectList.add(project);
 				}
 			} else {
-				ps = conn
-						.prepareStatement("select * from work where username =? and state =?");
+				ps = conn.prepareStatement("select * from work where " + name
+						+ "=? and state =?");
 				ps.setString(1, username);
 				ps.setInt(2, state);
 				rs = ps.executeQuery();
@@ -469,7 +482,8 @@ public class UserDaoImpl {
 					project.setWorkId(rs.getInt(1));
 					project.setTitle(rs.getString(3));
 					project.setTime(rs.getString(2));
-					project.setUsername(rs.getString(7));
+					project.setUsername(rs.getString(6));
+					project.setDesignername(rs.getString(7));
 					project.setState(rs.getInt(5));
 					projectList.add(project);
 				}
