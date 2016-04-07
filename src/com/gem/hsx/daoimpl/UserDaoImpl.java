@@ -666,4 +666,28 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	public List<Designer> searchDesigner(String content) {
+		List<Designer> list = new ArrayList<Designer>();
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from designer_info where username like ?");
+			ps.setString(1, "%"+content+"%");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Designer designer = new Designer();
+				designer.setUsername(rs.getString(1));
+				designer.setAvatar(rs.getString(5));
+				designer.setArea(rs.getString(13));
+				designer.setStyle(rs.getString(10));
+				list.add(designer);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

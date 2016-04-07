@@ -97,6 +97,15 @@
 		<servlet-name>UpdateProject</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.UpdateProject</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>SearchDesigner</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.SearchDesigner</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchDesigner</servlet-name>
+		<url-pattern>/SearchDesigner</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>UpdateProject</servlet-name>
 		<url-pattern>/UpdateProject</url-pattern>
