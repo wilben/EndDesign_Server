@@ -383,6 +383,7 @@ public class UserDaoImpl {
 					project.setState(rs.getInt(6));
 					project.setDesignername(rs.getString(3));
 					project.setUsername(rs.getString(7));
+					project.setStyle(rs.getString(8));
 					PreparedStatement ps1 = conn
 							.prepareStatement("select * from work_info where workId=?");
 					ps1.setInt(1, workId);
@@ -406,6 +407,7 @@ public class UserDaoImpl {
 					project.setDescription(rs.getString(4));
 					project.setTime(rs.getString(2));
 					project.setState(rs.getInt(5));
+					project.setStyle(rs.getString(8));
 				}
 			}
 		} catch (SQLException e) {
@@ -431,6 +433,7 @@ public class UserDaoImpl {
 				caseItem.setImage(rs.getString(1));
 				caseItem.setUsername(rs.getString(2));
 				caseItem.setDescription(rs.getString(3));
+				caseItem.setStyle(rs.getString(5));
 				PreparedStatement ps1 = conn
 						.prepareStatement("select * from work_info where workId =?");
 				ps1.setInt(1, rs.getInt(4));
@@ -697,13 +700,14 @@ public class UserDaoImpl {
 		ArrayList<String> list = project.getImageUrls();
 		Connection conn = getConn.getConnection();
 		try {
-			s1 = "update work set title=?,description=? where workId=?";
+			s1 = "update work set title=?,description=?,style=? where workId=?";
 			s2 = "insert work_info (image,workId) values (?,?) ";
 
 			ps = conn.prepareStatement(s1);
 			ps.setString(1, project.getTitle());
 			ps.setString(2, project.getDescription());
-			ps.setInt(3, project.getWorkId());
+			ps.setString(3, project.getStyle());
+			ps.setInt(4, project.getWorkId());
 			i = ps.executeUpdate();
 			if (list.size() > 0) {
 				for (int j = 0; j < list.size(); j++) {
