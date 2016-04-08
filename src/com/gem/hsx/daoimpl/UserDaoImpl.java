@@ -84,7 +84,7 @@ public class UserDaoImpl {
 				designer.setUsername(rs.getString(1));
 				designer.setAvatar(rs.getString(5));
 				designer.setArea(rs.getString(13));
-				designer.setStyle(rs.getString(10));
+				designer.setStyle(rs.getString(8));
 				list.add(designer);
 			}
 
@@ -148,20 +148,15 @@ public class UserDaoImpl {
 		return url;
 	}
 
-	public User getInfo(String username, String role) {
+	public User getU_Info(String username) {
 		// TODO Auto-generated method stub
 		User user = new User();
 		GetConn getConn = new GetConn();
 		PreparedStatement ps = null;
 		Connection conn = getConn.getConnection();
 		try {
-			if (role.equals("0")) {
-				ps = conn
-						.prepareStatement("select * from user_info where username=?");
-			} else {
-				ps = conn
-						.prepareStatement("select * from designer_info where username=?");
-			}
+			ps = conn
+					.prepareStatement("select * from user_info where username=?");
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -176,6 +171,35 @@ public class UserDaoImpl {
 			e.printStackTrace();
 		}
 		return user;
+	}
+
+	public Designer getD_Info(String username) {
+		// TODO Auto-generated method stub
+		Designer designer = new Designer();
+		GetConn getConn = new GetConn();
+		PreparedStatement ps = null;
+		Connection conn = getConn.getConnection();
+		try {
+			ps = conn
+					.prepareStatement("select * from designer_info where username=?");
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				designer.setUsername(rs.getString(1));
+				designer.setSex(rs.getString(3));
+				designer.setAge(rs.getString(4));
+				designer.setAvatar(rs.getString(5));
+				designer.setRealname(rs.getString(6));
+				designer.setConcept(rs.getString(9));
+				designer.setMotto(rs.getString(10));
+				designer.setWork(rs.getString(11));
+				designer.setArea(rs.getString(13));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return designer;
 	}
 
 	public String changePwd(String username, String password, String role) {
@@ -209,7 +233,7 @@ public class UserDaoImpl {
 		return result;
 	}
 
-	public boolean saveInfo(User user) {
+	public boolean saveU_Info(User user) {
 		// TODO Auto-generated method stub
 		boolean b = false;
 		GetConn getConn = new GetConn();
@@ -219,13 +243,8 @@ public class UserDaoImpl {
 		String s2 = null;
 		Connection conn = getConn.getConnection();
 		try {
-			if (user.getRole() == 0) {
-				s1 = "update user_info set realname=?,age=?,sex=?,avatar=?  where username=?";
-				s2 = "update user_info set realname=?,age=?,sex=?  where username=?";
-			} else {
-				s1 = "update designer_info set realname=?,age=?,sex=?,avatar=?  where username=?";
-				s2 = "update designer_info set realname=?,age=?,sex=?  where username=?";
-			}
+			s1 = "update user_info set realname=?,age=?,sex=?,avatar=?  where username=?";
+			s2 = "update user_info set realname=?,age=?,sex=?  where username=?";
 
 			if (user.getAvatar().equals("")) {
 				ps = conn.prepareStatement(s2);
@@ -238,6 +257,46 @@ public class UserDaoImpl {
 			ps.setString(1, user.getRealname());
 			ps.setString(2, user.getAge());
 			ps.setString(3, user.getSex());
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+
+	public boolean saveD_Info(Designer designer) {
+		// TODO Auto-generated method stub
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0;
+		PreparedStatement ps;
+		String s1 = null;
+		String s2 = null;
+		Connection conn = getConn.getConnection();
+		try {
+			s1 = "update designer_info set realname=?,age=?,sex=?,concept=?,motto=?,work=?,area=?,avatar=?  where username=?";
+			s2 = "update designer_info set realname=?,age=?,sex=?,concept=?,motto=?,work=?,area=?  where username=?";
+
+			if (designer.getAvatar().equals("")) {
+				ps = conn.prepareStatement(s2);
+				ps.setString(8, designer.getUsername());
+			} else {
+				ps = conn.prepareStatement(s1);
+				ps.setString(8, designer.getAvatar());
+				ps.setString(9, designer.getUsername());
+			}
+			ps.setString(1, designer.getRealname());
+			ps.setString(2, designer.getAge());
+			ps.setString(3, designer.getSex());
+			ps.setString(4, designer.getConcept());
+			ps.setString(5, designer.getMotto());
+			ps.setString(6, designer.getWork());
+			ps.setString(7, designer.getArea());
 			i = ps.executeUpdate();
 			if (i > 0) {
 				b = true;
@@ -264,9 +323,9 @@ public class UserDaoImpl {
 			if (rs.next()) {
 				designer.setUsername(rs.getString(1));
 				designer.setAvatar(rs.getString(5));
-				designer.setConcept(rs.getString(8));
-				designer.setMotto(rs.getString(9));
-				designer.setStyle(rs.getString(10));
+				designer.setConcept(rs.getString(9));
+				designer.setMotto(rs.getString(10));
+				designer.setStyle(rs.getString(8));
 				designer.setWork(rs.getString(11));
 				designer.setPeriod(rs.getString(12));
 				designer.setArea(rs.getString(13));
@@ -673,7 +732,7 @@ public class UserDaoImpl {
 		try {
 			PreparedStatement ps = conn
 					.prepareStatement("select * from designer_info where username like ?");
-			ps.setString(1, "%"+content+"%");
+			ps.setString(1, "%" + content + "%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Designer designer = new Designer();

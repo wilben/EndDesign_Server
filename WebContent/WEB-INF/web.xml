@@ -34,16 +34,24 @@
 		<servlet-class>com.gem.hsx.servlet.Avatar</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>Info</servlet-name>
-		<servlet-class>com.gem.hsx.servlet.Info</servlet-class>
+		<servlet-name>U_Info</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.U_Info</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>D_Info</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.D_Info</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>ChangePwd</servlet-name>
 		<servlet-class>com.gem.hsx.servlet.ChangePwd</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>SaveInfo</servlet-name>
-		<servlet-class>com.gem.hsx.servlet.SaveInfo</servlet-class>
+		<servlet-name>U_SaveInfo</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.U_SaveInfo</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>D_SaveInfo</servlet-name>
+		<servlet-class>com.gem.hsx.servlet.D_SaveInfo</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>FileInOutputStream</servlet-name>
@@ -105,7 +113,7 @@
 		<servlet-name>SearchDesigner</servlet-name>
 		<url-pattern>/SearchDesigner</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>UpdateProject</servlet-name>
 		<url-pattern>/UpdateProject</url-pattern>
@@ -185,16 +193,24 @@
 		<url-pattern>/Avatar</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>Info</servlet-name>
-		<url-pattern>/Info</url-pattern>
+		<servlet-name>U_Info</servlet-name>
+		<url-pattern>/U_Info</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>D_Info</servlet-name>
+		<url-pattern>/D_Info</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ChangePwd</servlet-name>
 		<url-pattern>/ChangePwd</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>SaveInfo</servlet-name>
-		<url-pattern>/SaveInfo</url-pattern>
+		<servlet-name>U_SaveInfo</servlet-name>
+		<url-pattern>/U_SaveInfo</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>D_SaveInfo</servlet-name>
+		<url-pattern>/D_SaveInfo</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>FileInOutputStream</servlet-name>

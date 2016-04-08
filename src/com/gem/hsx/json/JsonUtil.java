@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gem.hsx.bean.Designer;
 import com.gem.hsx.bean.Project;
 import com.gem.hsx.bean.User;
 import com.google.gson.Gson;
@@ -24,6 +25,14 @@ public class JsonUtil {
 		}.getType();
 		Gson gson = new Gson();
 		ArrayList<Project> list = gson.fromJson(jsondata, listType);
+		return list;
+
+	}
+	public List<Designer> FromJson1(String jsondata) {
+		Type listType = new TypeToken<List<Designer>>() {
+		}.getType();
+		Gson gson = new Gson();
+		ArrayList<Designer> list = gson.fromJson(jsondata, listType);
 		return list;
 
 	}

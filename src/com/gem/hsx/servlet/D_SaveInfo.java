@@ -4,20 +4,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-import com.gem.hsx.bean.User;
+import com.gem.hsx.bean.Designer;
 import com.gem.hsx.daoimpl.UserDaoImpl;
+import com.gem.hsx.json.JsonUtil;
 
 @SuppressWarnings("serial")
-public class Info extends HttpServlet {
+public class D_SaveInfo extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -35,8 +36,7 @@ public class Info extends HttpServlet {
 
 		StringBuffer jString = new StringBuffer();
 		String line = null;
-		String username = null;
-		String role = null;
+		String jsondata = null;
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
@@ -50,28 +50,26 @@ public class Info extends HttpServlet {
 		if (str.length() != 0) {
 			try {
 				JSONObject jsonObject = JSONObject.fromObject(str);
-				username = jsonObject.getString("username");
-				role = jsonObject.getString("role");
+				jsondata = jsonObject.getString("jsonstring");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
+			JsonUtil jsonUtil = new JsonUtil();
+			System.out.println(jsondata);
+			List<Designer> list = jsonUtil.FromJson1(jsondata);
+			Designer designer = list.get(0);
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
-			User user = userDaoImpl.getInfo(username, role);
-
-			JSONObject jsonObject = new JSONObject();
-			try {
-				jsonObject.put("info", user);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			boolean b = userDaoImpl.saveD_Info(designer);
+			if (b) {
+				out.write("t");
+			} else {
+				out.write("f");
 			}
-			String jsonString = jsonObject.toString();
-			System.out.println(jsonString);
-			out.print(jsonString);
 			out.flush();
 			out.close();
+
 		}
 
 	}
