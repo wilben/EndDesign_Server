@@ -17,7 +17,11 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.gem.hsx.utils.FileInOutput;
-
+/**
+ * 图片上传
+ * @author wilben
+ *
+ */
 public class FileInOutputStream extends HttpServlet {
 
 	/**
@@ -47,7 +51,6 @@ public class FileInOutputStream extends HttpServlet {
 
 			String url = fio.upLoadFile(items, filedir);
 			out.println(url);
-			System.out.println(url);
 		} catch (FileUploadException e) {
 			// TODO Auto-generated catch block
 			out.println("-1");

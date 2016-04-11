@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.gem.hsx.daoimpl.UserDaoImpl;
-
+/**
+ * 检查用户名是否存在
+ * @author wilben
+ *
+ */
 @SuppressWarnings("serial")
 public class Check extends HttpServlet {
 

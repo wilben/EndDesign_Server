@@ -16,7 +16,11 @@ import net.sf.json.JSONObject;
 import com.gem.hsx.bean.Designer;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 import com.gem.hsx.json.JsonUtil;
-
+/**
+ * 修改设计师个人信息
+ * @author wilben
+ *
+ */
 @SuppressWarnings("serial")
 public class D_SaveInfo extends HttpServlet {
 
@@ -57,7 +61,6 @@ public class D_SaveInfo extends HttpServlet {
 			}
 
 			JsonUtil jsonUtil = new JsonUtil();
-			System.out.println(jsondata);
 			List<Designer> list = jsonUtil.FromJson1(jsondata);
 			Designer designer = list.get(0);
 			UserDaoImpl userDaoImpl = new UserDaoImpl();

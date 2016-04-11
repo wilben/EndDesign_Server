@@ -10,8 +10,13 @@ import org.apache.commons.fileupload.FileItem;
 
 public class FileInOutput {
 
-	public String imagePath = "http://192.168.1.111:8080/Login/images/";
-	String filename;
+	String filename;//图片名
+/**
+ * 上传图片
+ * @param items 图片实体
+ * @param filedir 存储路径
+ * @return
+ */
 
 	public String upLoadFile(List<FileItem> items, String filedir) {
 
@@ -22,10 +27,6 @@ public class FileInOutput {
 				for (FileItem fileItem : items) {
 					filename = fileItem.getName();
 					String filepath = filedir + File.separator + filename;
-					String savepath = filepath.replaceAll("\\\\", "/");
-					System.out.println(filepath.replaceAll("\\\\", "/"));
-					System.out.println("文件保存路径为:" + savepath);
-					// 文件路径
 					File file = new File(filepath);
 					InputStream inputSteam = fileItem.getInputStream();
 					BufferedInputStream fis = new BufferedInputStream(
@@ -42,7 +43,7 @@ public class FileInOutput {
 				}
 
 			}
-			return imagePath + filename;
+			return "images/"+filename;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "-1";

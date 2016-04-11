@@ -14,6 +14,12 @@ import com.gem.hsx.db.GetConn;
 import com.mysql.jdbc.Statement;
 
 public class UserDaoImpl {
+	/**
+	 * 登录
+	 * @param username 用户名
+	 * @param password 密码
+	 * @return
+	 */
 	public int login(String username, String password) {
 		int b = -1;
 		GetConn getConn = new GetConn();
@@ -21,7 +27,7 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("select * from user_info where username=? and password=?");
+					.prepareStatement("select * from user_info where binary username=? and binary password=?");
 			ps.setString(1, username);
 			ps.setString(2, password);
 			rs = ps.executeQuery();
@@ -29,7 +35,7 @@ public class UserDaoImpl {
 				b = 0;
 			}
 			PreparedStatement ps1 = conn
-					.prepareStatement("select * from designer_info where username=? and password=?");
+					.prepareStatement("select * from designer_info where binary username=? and binary password=?");
 			ps1.setString(1, username);
 			ps1.setString(2, password);
 			rs1 = ps1.executeQuery();
@@ -42,6 +48,11 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	/**
+	 * 注册
+	 * @param user 用户信息
+	 * @return
+	 */
 	public boolean register(User user) {
 		boolean b = false;
 		GetConn getConn = new GetConn();
@@ -71,6 +82,10 @@ public class UserDaoImpl {
 
 	}
 
+	/**
+	 * 查询设计师列表
+	 * @return
+	 */
 	public List<Designer> selectAllDesigner() {
 		List<Designer> list = new ArrayList<Designer>();
 		GetConn getConn = new GetConn();
@@ -94,6 +109,11 @@ public class UserDaoImpl {
 		return list;
 	}
 
+	/**
+	 * 用户名是否存在
+	 * @param username 用户名
+	 * @return
+	 */
 	public boolean check(String username) {
 		boolean b = false;
 		GetConn getConn = new GetConn();
@@ -101,12 +121,12 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("select * from user_info where username=?");
+					.prepareStatement("select * from user_info where binary username=?");
 			ps.setString(1, username);
 
 			rs = ps.executeQuery();
 			PreparedStatement ps1 = conn
-					.prepareStatement("select * from designer_info where username=?");
+					.prepareStatement("select * from designer_info where binary username=?");
 			ps1.setString(1, username);
 
 			rs1 = ps1.executeQuery();
@@ -121,6 +141,12 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	/**
+	 * 查询头像
+	 * @param username 用户名
+	 * @param role 角色
+	 * @return
+	 */
 	public String getAvatar(String username, int role) {
 		// TODO Auto-generated method stub
 		String url = null;
@@ -131,10 +157,10 @@ public class UserDaoImpl {
 		try {
 			if (role == 0) {
 				ps = conn
-						.prepareStatement("select avatar from user_info where username=?");
+						.prepareStatement("select avatar from user_info where binary username=?");
 			} else {
 				ps = conn
-						.prepareStatement("select avatar from designer_info where username=?");
+						.prepareStatement("select avatar from designer_info where binary username=?");
 			}
 			ps.setString(1, username);
 
@@ -148,6 +174,11 @@ public class UserDaoImpl {
 		return url;
 	}
 
+	/**
+	 * 查询用户个人信息
+	 * @param username 用户名
+	 * @return
+	 */
 	public User getU_Info(String username) {
 		// TODO Auto-generated method stub
 		User user = new User();
@@ -156,7 +187,7 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			ps = conn
-					.prepareStatement("select * from user_info where username=?");
+					.prepareStatement("select * from user_info where binary username=?");
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -173,6 +204,11 @@ public class UserDaoImpl {
 		return user;
 	}
 
+	/**
+	 * 查询设计师个人信息
+	 * @param username 用户名
+	 * @return
+	 */
 	public Designer getD_Info(String username) {
 		// TODO Auto-generated method stub
 		Designer designer = new Designer();
@@ -181,7 +217,7 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			ps = conn
-					.prepareStatement("select * from designer_info where username=?");
+					.prepareStatement("select * from designer_info where binary username=?");
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -202,6 +238,13 @@ public class UserDaoImpl {
 		return designer;
 	}
 
+	/**
+	 * 修改密码
+	 * @param username 用户名
+	 * @param password 密码
+	 * @param role 角色
+	 * @return
+	 */
 	public String changePwd(String username, String password, String role) {
 		// TODO Auto-generated method stub
 		String result = null;
@@ -212,10 +255,10 @@ public class UserDaoImpl {
 		try {
 			if (role.equals("0")) {
 				ps = conn
-						.prepareStatement("update user_info set password=?  where username=?");
+						.prepareStatement("update user_info set password=?  where binary username=?");
 			} else {
 				ps = conn
-						.prepareStatement("update designer_info set password=?  where username=?");
+						.prepareStatement("update designer_info set password=?  where binary username=?");
 
 			}
 			ps.setString(1, password);
@@ -233,6 +276,11 @@ public class UserDaoImpl {
 		return result;
 	}
 
+	/**
+	 * 修改用户个人信息
+	 * @param user 用户信息
+	 * @return
+	 */
 	public boolean saveU_Info(User user) {
 		// TODO Auto-generated method stub
 		boolean b = false;
@@ -243,8 +291,8 @@ public class UserDaoImpl {
 		String s2 = null;
 		Connection conn = getConn.getConnection();
 		try {
-			s1 = "update user_info set realname=?,age=?,sex=?,avatar=?  where username=?";
-			s2 = "update user_info set realname=?,age=?,sex=?  where username=?";
+			s1 = "update user_info set realname=?,age=?,sex=?,avatar=?  where binary username=?";
+			s2 = "update user_info set realname=?,age=?,sex=?  where binary username=?";
 
 			if (user.getAvatar().equals("")) {
 				ps = conn.prepareStatement(s2);
@@ -269,6 +317,11 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	/**
+	 * 修改设计师个人信息
+	 * @param designer 设计师信息
+	 * @return
+	 */
 	public boolean saveD_Info(Designer designer) {
 		// TODO Auto-generated method stub
 		boolean b = false;
@@ -279,8 +332,8 @@ public class UserDaoImpl {
 		String s2 = null;
 		Connection conn = getConn.getConnection();
 		try {
-			s1 = "update designer_info set realname=?,age=?,sex=?,concept=?,motto=?,work=?,area=?,avatar=?  where username=?";
-			s2 = "update designer_info set realname=?,age=?,sex=?,concept=?,motto=?,work=?,area=?  where username=?";
+			s1 = "update designer_info set realname=?,age=?,sex=?,concept=?,motto=?,work=?,area=?,avatar=?  where binary username=?";
+			s2 = "update designer_info set realname=?,age=?,sex=?,concept=?,motto=?,work=?,area=?  where binary username=?";
 
 			if (designer.getAvatar().equals("")) {
 				ps = conn.prepareStatement(s2);
@@ -309,6 +362,11 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	/**
+	 * 查询设计师详情
+	 * @param username 设计师名
+	 * @return
+	 */
 	public Designer getDesignerDetail(String username) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
@@ -317,7 +375,7 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("select * from designer_info where username=?");
+					.prepareStatement("select * from designer_info where binary username=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -336,6 +394,11 @@ public class UserDaoImpl {
 		return designer;
 	}
 
+	/**
+	 * 查询作品列表
+	 * @param username 设计师名
+	 * @return
+	 */
 	public List<Project> getWorks(String username) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
@@ -345,7 +408,7 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("select * from work_view where designername=?");
+					.prepareStatement("select * from work_view where binary designername=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -362,6 +425,12 @@ public class UserDaoImpl {
 		return list;
 	}
 
+	/**
+	 * 查询项目详情
+	 * @param workId 项目Id
+	 * @param state 项目状态
+	 * @return
+	 */
 	public Project getWorkDetail(int workId, int state) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
@@ -416,6 +485,10 @@ public class UserDaoImpl {
 		return project;
 	}
 
+	/**
+	 * 查询经典案例列表
+	 * @return
+	 */
 	public List<Project> selectAllCase() {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
@@ -451,6 +524,14 @@ public class UserDaoImpl {
 		return caseList;
 	}
 
+	/**
+	 * 查询项目列表
+	 * @param username 用户名
+	 * @param state 项目状态
+	 * @param role 角色
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<com.gem.hsx.bean.Project> getProjects(String username,
 			int state, String role) throws SQLException {
 		// TODO Auto-generated method stub
@@ -462,7 +543,6 @@ public class UserDaoImpl {
 		List<Project> projectList = new ArrayList<Project>();
 		Connection conn = getConn.getConnection();
 		Statement stmt = (Statement) conn.createStatement();
-		String queryString = null;
 		try {
 			if (role.equals("0")) {
 				name = "username";
@@ -488,9 +568,13 @@ public class UserDaoImpl {
 					projectList.add(project);
 				}
 				if (state == 1) {
-					queryString = "select a.workId from  (select workId from work where state = 1 )as a where a.workId not in"
-							+ "(select workId from work_info group by workId)";
-					rs1 = stmt.executeQuery(queryString);
+					ps = conn
+							.prepareStatement("select a.workId from  (select workId from work where state = 1 and binary"
+									+ name
+									+ "=? )as a where a.workId not in"
+									+ "(select workId from work_info group by workId)");
+					ps.setString(1, username);
+					rs1 = ps.executeQuery();
 					while (rs1.next()) {
 						ps = conn
 								.prepareStatement("select * from work where workId =?");
@@ -509,17 +593,21 @@ public class UserDaoImpl {
 					}
 				}
 			} else if (state == 3) {
-				ps = conn.prepareStatement("select * from projects_view where "
+				ps = conn.prepareStatement("select * from projects_view where binary "
 						+ name + "=? and state =1");
 				ps.setString(1, username);
 				rs1 = ps.executeQuery();
-				ps = conn.prepareStatement("select * from projects_view where "
+				ps = conn.prepareStatement("select * from projects_view where binary "
 						+ name + "=? and state =2");
 				ps.setString(1, username);
 				rs2 = ps.executeQuery();
-				queryString = "select a.workId from  (select workId from work )as a where a.workId not in"
-						+ "(select workId from work_info group by workId)";
-				rs4 = stmt.executeQuery(queryString);
+				ps = conn
+						.prepareStatement("select a.workId from  (select workId from work where binary "
+								+ name
+								+ " =?)as a where a.workId not in"
+								+ "(select workId from work_info group by workId)");
+				ps.setString(1, username);
+				rs4 = ps.executeQuery();
 				while (rs4.next()) {
 					ps = conn
 							.prepareStatement("select * from work where workId =?");
@@ -559,7 +647,7 @@ public class UserDaoImpl {
 					projectList.add(project);
 				}
 			} else {
-				ps = conn.prepareStatement("select * from work where " + name
+				ps = conn.prepareStatement("select * from work where binary " + name
 						+ "=? and state =?");
 				ps.setString(1, username);
 				ps.setInt(2, state);
@@ -582,6 +670,11 @@ public class UserDaoImpl {
 		return projectList;
 	}
 
+	/**
+	 * 新建项目
+	 * @param project 项目信息
+	 * @return
+	 */
 	public boolean launchProject(Project project) {
 		boolean b = false;
 		GetConn getConn = new GetConn();
@@ -607,6 +700,13 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	/**
+	 * 修改我的风格
+	 * @param username 用户名
+	 * @param style 风格
+	 * @param role 角色
+	 * @return
+	 */
 	public String saveStyle(String username, String style, String role) {
 		String result = null;
 		GetConn getConn = new GetConn();
@@ -616,10 +716,10 @@ public class UserDaoImpl {
 		try {
 			if (role.equals("0")) {
 				ps = conn
-						.prepareStatement("update user_info set style=?  where username=?");
+						.prepareStatement("update user_info set style=?  where binary username=?");
 			} else {
 				ps = conn
-						.prepareStatement("update designer_info set style=?  where username=?");
+						.prepareStatement("update designer_info set style=?  where binary username=?");
 			}
 			ps.setString(1, style);
 			ps.setString(2, username);
@@ -636,6 +736,12 @@ public class UserDaoImpl {
 		return result;
 	}
 
+	/**
+	 * 查询我的风格
+	 * @param username 用户名
+	 * @param role 角色
+	 * @return
+	 */
 	public String getStyle(String username, String role) {
 		String result = null;
 		GetConn getConn = new GetConn();
@@ -645,10 +751,10 @@ public class UserDaoImpl {
 		try {
 			if (role.equals("0")) {
 				ps = conn
-						.prepareStatement("select style from user_info  where username=?");
+						.prepareStatement("select style from user_info  where binary username=?");
 			} else {
 				ps = conn
-						.prepareStatement("select style from designer_info  where username=?");
+						.prepareStatement("select style from designer_info  where binary username=?");
 			}
 			ps.setString(1, username);
 
@@ -664,6 +770,12 @@ public class UserDaoImpl {
 		return result;
 	}
 
+	/**
+	 * 修改项目状态
+	 * @param workId 项目Id
+	 * @param state 项目状态
+	 * @return
+	 */
 	public String changeState(int workId, int state) {
 		// TODO Auto-generated method stub
 		String result = null;
@@ -689,6 +801,11 @@ public class UserDaoImpl {
 		return result;
 	}
 
+	/**
+	 * 修改项目信息
+	 * @param project
+	 * @return
+	 */
 	public boolean updateProject(Project project) {
 		boolean b = false;
 		GetConn getConn = new GetConn();
@@ -729,6 +846,11 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	/**
+	 * 查询设计师
+	 * @param content 设计师名 
+	 * @return
+	 */
 	public List<Designer> searchDesigner(String content) {
 		List<Designer> list = new ArrayList<Designer>();
 		GetConn getConn = new GetConn();

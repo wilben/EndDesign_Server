@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.gem.hsx.daoimpl.UserDaoImpl;
-
+/**
+ * 查询用户头像
+ * @author wilben
+ *
+ */
 @SuppressWarnings("serial")
 public class Avatar extends HttpServlet {
 
@@ -58,7 +62,6 @@ public class Avatar extends HttpServlet {
 			UserDaoImpl userDaoImpl = new UserDaoImpl();
 			String url = userDaoImpl
 					.getAvatar(username, Integer.parseInt(role));
-			System.out.println(url);
 			out.write(url);
 			out.flush();
 			out.close();

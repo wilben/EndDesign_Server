@@ -2,17 +2,24 @@ package com.gem.hsx.bean;
 
 import java.util.ArrayList;
 
+/**
+ * 项目实体
+ * 
+ * @author wilben
+ * 
+ */
+
 public class Project {
 	private String image; // 封面
 	private String title; // 标题
 	private String time; // 时间
-	private String designername;
-	private String username;
-	private int workId;
-	private String description;
-	private ArrayList<String> imageUrls; // 九宫格图片的URL集合
-	private int state;
-	private String style;
+	private String designername; // 设计师名
+	private String username; // 用户名
+	private int workId; // 项目Id
+	private String description; // 项目描述
+	private ArrayList<String> imageUrls; // 项目图片集
+	private int state; // 项目状态
+	private String style; // 项目风格
 
 	public Project(String image, String title, String time, String username,
 			int workId, String description, ArrayList<String> imageUrls,

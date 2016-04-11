@@ -3,7 +3,11 @@ package com.gem.hsx.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+/**
+ * 连接数据库
+ * @author wilben
+ *
+ */
 public class GetConn {
 	public Connection getConnection() 
 	{ 

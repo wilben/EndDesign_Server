@@ -15,7 +15,11 @@ import net.sf.json.JSONObject;
 
 import com.gem.hsx.bean.Project;
 import com.gem.hsx.daoimpl.UserDaoImpl;
-
+/**
+ * 查询作品详情
+ * @author wilben
+ *
+ */
 public class WorkDetail extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -65,7 +69,6 @@ public class WorkDetail extends HttpServlet {
 				e.printStackTrace();
 			}
 			String jsonString = jsonObject.toString();
-			System.out.println(jsonString);
 			out.print(jsonString);
 			out.flush();
 			out.close();

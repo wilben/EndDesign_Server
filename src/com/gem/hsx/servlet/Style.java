@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.gem.hsx.daoimpl.UserDaoImpl;
-
+/**
+ * 查询我的风格
+ * @author wilben
+ *
+ */
 @SuppressWarnings("serial")
 public class Style extends HttpServlet {
 

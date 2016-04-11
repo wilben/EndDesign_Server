@@ -9,8 +9,17 @@ import com.gem.hsx.bean.Project;
 import com.gem.hsx.bean.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
+/**
+ * 转换Json
+ * @author wilben
+ *
+ */
 public class JsonUtil {
+	/**
+	 * 转为User
+	 * @param jsondata 
+	 * @return
+	 */
 	public List<User> StringFromJson(String jsondata) {
 		Type listType = new TypeToken<List<User>>() {
 		}.getType();
@@ -19,7 +28,12 @@ public class JsonUtil {
 		return list;
 
 	}
-
+	
+	/**
+	 * 转为Project
+	 * @param jsondata 
+	 * @return
+	 */
 	public List<Project> FromJson(String jsondata) {
 		Type listType = new TypeToken<List<Project>>() {
 		}.getType();
@@ -28,6 +42,11 @@ public class JsonUtil {
 		return list;
 
 	}
+	/**
+	 * 转为Designer
+	 * @param jsondata
+	 * @return
+	 */
 	public List<Designer> FromJson1(String jsondata) {
 		Type listType = new TypeToken<List<Designer>>() {
 		}.getType();

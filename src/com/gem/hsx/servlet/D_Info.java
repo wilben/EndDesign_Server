@@ -15,7 +15,11 @@ import net.sf.json.JSONObject;
 
 import com.gem.hsx.bean.Designer;
 import com.gem.hsx.daoimpl.UserDaoImpl;
-
+/**
+ * 查询设计师个人信息
+ * @author wilben
+ *
+ */
 @SuppressWarnings("serial")
 public class D_Info extends HttpServlet {
 
@@ -66,7 +70,6 @@ public class D_Info extends HttpServlet {
 				e.printStackTrace();
 			}
 			String jsonString = jsonObject.toString();
-			System.out.println(jsonString);
 			out.print(jsonString);
 			out.flush();
 			out.close();

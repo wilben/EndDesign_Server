@@ -16,7 +16,11 @@ import net.sf.json.JSONObject;
 import com.gem.hsx.bean.Project;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 import com.gem.hsx.json.JsonUtil;
-
+/**
+ * 修改项目信息
+ * @author wilben
+ *
+ */
 @SuppressWarnings("serial")
 public class UpdateProject extends HttpServlet {
 
@@ -57,7 +61,6 @@ public class UpdateProject extends HttpServlet {
 			}
 
 			JsonUtil jsonUtil = new JsonUtil();
-			System.out.println(jsondata);
 			List<Project> list = jsonUtil.FromJson(jsondata);
 			Project project = list.get(0);
 			UserDaoImpl userDaoImpl = new UserDaoImpl();

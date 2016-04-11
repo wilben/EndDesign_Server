@@ -13,7 +13,11 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import com.gem.hsx.daoimpl.UserDaoImpl;
-
+/**
+ * 查询所有经典案例
+ * @author wilben
+ *
+ */
 public class AllProject extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -38,7 +42,6 @@ public class AllProject extends HttpServlet {
 			e.printStackTrace();
 		}
 		String jsonString = jsonObject.toString();
-		System.out.println(jsonString);
 		out.print(jsonString);
 		out.flush();
 		out.close();

@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.gem.hsx.daoimpl.UserDaoImpl;
-
+/**
+ * 修改项目状态
+ * @author wilben
+ *
+ */
 @SuppressWarnings("serial")
 public class ChangeState extends HttpServlet {
 

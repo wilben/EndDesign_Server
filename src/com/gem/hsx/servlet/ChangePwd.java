@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.gem.hsx.daoimpl.UserDaoImpl;
-
+/**
+ * 修改密码
+ * @author wilben
+ *
+ */
 @SuppressWarnings("serial")
 public class ChangePwd extends HttpServlet {
 

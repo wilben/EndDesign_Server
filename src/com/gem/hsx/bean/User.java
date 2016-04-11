@@ -1,15 +1,22 @@
 package com.gem.hsx.bean;
 
+/**
+ * 用户实体
+ * 
+ * @author wilben
+ * 
+ */
+
 public class User {
 
-	private String username;
-	private String password;
-	private String sex;
-	private String age;
-	private String avatar;
-	private String realname;
-	private int role;
-	private String style;
+	private String username; // 用户名
+	private String password; // 密码
+	private String sex; // 性别
+	private String age; // 年龄
+	private int role; // 角色
+	private String realname; // 真实姓名
+	private String avatar; // 头像
+	private String style; // 风格
 
 	public String getUsername() {
 		return username;
