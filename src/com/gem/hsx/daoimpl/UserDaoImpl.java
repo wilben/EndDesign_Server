@@ -97,7 +97,9 @@ public class UserDaoImpl {
 			while (rs.next()) {
 				Designer designer = new Designer();
 				designer.setUsername(rs.getString(1));
+				designer.setSex(rs.getString(3));
 				designer.setAvatar(rs.getString(5));
+				designer.setRealname(rs.getString(6));
 				designer.setArea(rs.getString(13));
 				designer.setStyle(rs.getString(8));
 				list.add(designer);
@@ -380,10 +382,13 @@ public class UserDaoImpl {
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				designer.setUsername(rs.getString(1));
+				designer.setSex(rs.getString(3));
+				designer.setAge(rs.getString(4));
 				designer.setAvatar(rs.getString(5));
+				designer.setRealname(rs.getString(6));
+				designer.setStyle(rs.getString(8));
 				designer.setConcept(rs.getString(9));
 				designer.setMotto(rs.getString(10));
-				designer.setStyle(rs.getString(8));
 				designer.setWork(rs.getString(11));
 				designer.setPeriod(rs.getString(12));
 				designer.setArea(rs.getString(13));
@@ -857,7 +862,7 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("select * from designer_info where username like ?");
+					.prepareStatement("select * from designer_info  where username like ?");
 			ps.setString(1, "%" + content + "%");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -873,6 +878,32 @@ public class UserDaoImpl {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public boolean register(Designer designer) {
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0;
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("insert designer_info (username,password,sex,age,realname,role)  values (?,?,?,?,?,?)");
+			ps.setString(1, designer.getUsername());
+			ps.setString(2, designer.getPassword());
+			ps.setString(3, designer.getSex());
+			ps.setString(4, designer.getAge());
+			ps.setString(5, designer.getRealname());
+			ps.setInt(6, designer.getRole());
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+
 	}
 
 }
