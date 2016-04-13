@@ -10,13 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.gem.hsx.bean.Designer;
+import com.gem.hsx.bean.User;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
 /**
  * Servlet implementation class AddDesignerServlet
  */
-@WebServlet("/AddDesignerServlet")
-public class AddDesignerServlet extends HttpServlet {
+@WebServlet("/AddUserServlet")
+public class AddUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -41,16 +42,18 @@ public class AddDesignerServlet extends HttpServlet {
 		String sex = request.getParameter("sex");
 		String age = request.getParameter("age");
 		String realname = request.getParameter("realname");
-		Designer designer = new Designer();
+		User user = new User();
 		HttpSession session = request.getSession();
 		if (!new UserDaoImpl().check(username)) {
-			designer.setUsername(username);
-			designer.setPassword("000000");
-			designer.setSex(sex);
-			designer.setAge(age);
-			designer.setRealname(realname);
-			designer.setRole(1);
-			if (new UserDaoImpl().register(designer)) {
+			user.setUsername(username);
+			user.setPassword("000000");
+			user.setSex(sex);
+			user.setAge(age);
+			user.setRealname(realname);
+			user.setRole(0);
+			user.setAvatar("");
+			user.setStyle("");
+			if (new UserDaoImpl().register(user)) {
 				session.setAttribute("result", "添加成功");
 			} else {
 				session.setAttribute("result", "添加失败");
@@ -58,7 +61,7 @@ public class AddDesignerServlet extends HttpServlet {
 			response.sendRedirect("result.jsp");
 		}else{
 			session.setAttribute("result", "用户名已存在");
-			response.sendRedirect("addDesigner.jsp");
+			response.sendRedirect("addUser.jsp");
 		}
 	}
 }

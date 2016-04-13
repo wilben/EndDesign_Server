@@ -16,8 +16,11 @@ import com.mysql.jdbc.Statement;
 public class UserDaoImpl {
 	/**
 	 * 登录
-	 * @param username 用户名
-	 * @param password 密码
+	 * 
+	 * @param username
+	 *            用户名
+	 * @param password
+	 *            密码
 	 * @return
 	 */
 	public int login(String username, String password) {
@@ -50,7 +53,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 注册
-	 * @param user 用户信息
+	 * 
+	 * @param user
+	 *            用户信息
 	 * @return
 	 */
 	public boolean register(User user) {
@@ -84,6 +89,7 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询设计师列表
+	 * 
 	 * @return
 	 */
 	public List<Designer> selectAllDesigner() {
@@ -100,6 +106,7 @@ public class UserDaoImpl {
 				designer.setSex(rs.getString(3));
 				designer.setAvatar(rs.getString(5));
 				designer.setRealname(rs.getString(6));
+				designer.setRole(rs.getInt(7));
 				designer.setArea(rs.getString(13));
 				designer.setStyle(rs.getString(8));
 				list.add(designer);
@@ -113,7 +120,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 用户名是否存在
-	 * @param username 用户名
+	 * 
+	 * @param username
+	 *            用户名
 	 * @return
 	 */
 	public boolean check(String username) {
@@ -145,8 +154,11 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询头像
-	 * @param username 用户名
-	 * @param role 角色
+	 * 
+	 * @param username
+	 *            用户名
+	 * @param role
+	 *            角色
 	 * @return
 	 */
 	public String getAvatar(String username, int role) {
@@ -178,7 +190,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询用户个人信息
-	 * @param username 用户名
+	 * 
+	 * @param username
+	 *            用户名
 	 * @return
 	 */
 	public User getU_Info(String username) {
@@ -194,10 +208,13 @@ public class UserDaoImpl {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				user.setUsername(rs.getString(1));
+				user.setPassword(rs.getString(2));
 				user.setSex(rs.getString(3));
 				user.setAge(rs.getString(4));
 				user.setAvatar(rs.getString(5));
 				user.setRealname(rs.getString(6));
+				user.setRole(rs.getInt(7));
+				user.setStyle(rs.getString(8));
 			}
 
 		} catch (SQLException e) {
@@ -208,7 +225,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询设计师个人信息
-	 * @param username 用户名
+	 * 
+	 * @param username
+	 *            用户名
 	 * @return
 	 */
 	public Designer getD_Info(String username) {
@@ -242,9 +261,13 @@ public class UserDaoImpl {
 
 	/**
 	 * 修改密码
-	 * @param username 用户名
-	 * @param password 密码
-	 * @param role 角色
+	 * 
+	 * @param username
+	 *            用户名
+	 * @param password
+	 *            密码
+	 * @param role
+	 *            角色
 	 * @return
 	 */
 	public String changePwd(String username, String password, String role) {
@@ -280,7 +303,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 修改用户个人信息
-	 * @param user 用户信息
+	 * 
+	 * @param user
+	 *            用户信息
 	 * @return
 	 */
 	public boolean saveU_Info(User user) {
@@ -321,7 +346,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 修改设计师个人信息
-	 * @param designer 设计师信息
+	 * 
+	 * @param designer
+	 *            设计师信息
 	 * @return
 	 */
 	public boolean saveD_Info(Designer designer) {
@@ -366,7 +393,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询设计师详情
-	 * @param username 设计师名
+	 * 
+	 * @param username
+	 *            设计师名
 	 * @return
 	 */
 	public Designer getDesignerDetail(String username) {
@@ -386,6 +415,7 @@ public class UserDaoImpl {
 				designer.setAge(rs.getString(4));
 				designer.setAvatar(rs.getString(5));
 				designer.setRealname(rs.getString(6));
+				designer.setRole(rs.getInt(7));
 				designer.setStyle(rs.getString(8));
 				designer.setConcept(rs.getString(9));
 				designer.setMotto(rs.getString(10));
@@ -401,7 +431,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询作品列表
-	 * @param username 设计师名
+	 * 
+	 * @param username
+	 *            设计师名
 	 * @return
 	 */
 	public List<Project> getWorks(String username) {
@@ -432,8 +464,11 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询项目详情
-	 * @param workId 项目Id
-	 * @param state 项目状态
+	 * 
+	 * @param workId
+	 *            项目Id
+	 * @param state
+	 *            项目状态
 	 * @return
 	 */
 	public Project getWorkDetail(int workId, int state) {
@@ -492,6 +527,7 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询经典案例列表
+	 * 
 	 * @return
 	 */
 	public List<Project> selectAllCase() {
@@ -531,9 +567,13 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询项目列表
-	 * @param username 用户名
-	 * @param state 项目状态
-	 * @param role 角色
+	 * 
+	 * @param username
+	 *            用户名
+	 * @param state
+	 *            项目状态
+	 * @param role
+	 *            角色
 	 * @return
 	 * @throws SQLException
 	 */
@@ -598,12 +638,14 @@ public class UserDaoImpl {
 					}
 				}
 			} else if (state == 3) {
-				ps = conn.prepareStatement("select * from projects_view where binary "
-						+ name + "=? and state =1");
+				ps = conn
+						.prepareStatement("select * from projects_view where binary "
+								+ name + "=? and state =1");
 				ps.setString(1, username);
 				rs1 = ps.executeQuery();
-				ps = conn.prepareStatement("select * from projects_view where binary "
-						+ name + "=? and state =2");
+				ps = conn
+						.prepareStatement("select * from projects_view where binary "
+								+ name + "=? and state =2");
 				ps.setString(1, username);
 				rs2 = ps.executeQuery();
 				ps = conn
@@ -652,8 +694,8 @@ public class UserDaoImpl {
 					projectList.add(project);
 				}
 			} else {
-				ps = conn.prepareStatement("select * from work where binary " + name
-						+ "=? and state =?");
+				ps = conn.prepareStatement("select * from work where binary "
+						+ name + "=? and state =?");
 				ps.setString(1, username);
 				ps.setInt(2, state);
 				rs = ps.executeQuery();
@@ -677,7 +719,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 新建项目
-	 * @param project 项目信息
+	 * 
+	 * @param project
+	 *            项目信息
 	 * @return
 	 */
 	public boolean launchProject(Project project) {
@@ -707,9 +751,13 @@ public class UserDaoImpl {
 
 	/**
 	 * 修改我的风格
-	 * @param username 用户名
-	 * @param style 风格
-	 * @param role 角色
+	 * 
+	 * @param username
+	 *            用户名
+	 * @param style
+	 *            风格
+	 * @param role
+	 *            角色
 	 * @return
 	 */
 	public String saveStyle(String username, String style, String role) {
@@ -743,8 +791,11 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询我的风格
-	 * @param username 用户名
-	 * @param role 角色
+	 * 
+	 * @param username
+	 *            用户名
+	 * @param role
+	 *            角色
 	 * @return
 	 */
 	public String getStyle(String username, String role) {
@@ -777,8 +828,11 @@ public class UserDaoImpl {
 
 	/**
 	 * 修改项目状态
-	 * @param workId 项目Id
-	 * @param state 项目状态
+	 * 
+	 * @param workId
+	 *            项目Id
+	 * @param state
+	 *            项目状态
 	 * @return
 	 */
 	public String changeState(int workId, int state) {
@@ -808,6 +862,7 @@ public class UserDaoImpl {
 
 	/**
 	 * 修改项目信息
+	 * 
 	 * @param project
 	 * @return
 	 */
@@ -853,7 +908,9 @@ public class UserDaoImpl {
 
 	/**
 	 * 查询设计师
-	 * @param content 设计师名 
+	 * 
+	 * @param content
+	 *            设计师名
 	 * @return
 	 */
 	public List<Designer> searchDesigner(String content) {
@@ -879,6 +936,7 @@ public class UserDaoImpl {
 		}
 		return list;
 	}
+
 	public boolean register(Designer designer) {
 		boolean b = false;
 		GetConn getConn = new GetConn();
@@ -904,6 +962,148 @@ public class UserDaoImpl {
 		}
 		return b;
 
+	}
+
+	public boolean modifyDesigner(Designer designer) {
+		// TODO Auto-generated method stub
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0;
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("update designer_info set sex=?,age=?,avatar=?,realname=?,role=?,style=?,concept=?,motto=?,work=?,period=?,area=? where username=?");
+			ps.setString(1, designer.getSex());
+			ps.setString(2, designer.getAge());
+			ps.setString(3, designer.getAvatar());
+			ps.setString(4, designer.getRealname());
+			ps.setInt(5, designer.getRole());
+			ps.setString(6, designer.getStyle());
+			ps.setString(7, designer.getConcept());
+			ps.setString(8, designer.getMotto());
+			ps.setString(9, designer.getWork());
+			ps.setString(10, designer.getPeriod());
+			ps.setString(11, designer.getArea());
+			ps.setString(12, designer.getUsername());
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+
+	public boolean deleteInfo(String username, int role) {
+		// TODO Auto-generated method stub
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0;
+		PreparedStatement ps;
+		Connection conn = getConn.getConnection();
+		try {
+			if (role == 1) {
+				ps = conn
+						.prepareStatement("delete from designer_info where username=?");
+			} else {
+				ps = conn
+						.prepareStatement("delete from user_info where username=?");
+			}
+			ps.setString(1, username);
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+
+	public boolean resetPwd(String username, int role) {
+		// TODO Auto-generated method stub
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0;
+		PreparedStatement ps;
+		Connection conn = getConn.getConnection();
+		try {
+			if (role == 1) {
+				ps = conn
+						.prepareStatement("update designer_info set password='000000' where username=?");
+			} else {
+				ps = conn
+						.prepareStatement("update user_info set password='000000' where username=?");
+			}
+			ps.setString(1, username);
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+
+	public List<User> selectAllUser() {
+		// TODO Auto-generated method stub
+		List<User> list = new ArrayList<User>();
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from user_info where role=0");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				User user = new User();
+				user.setUsername(rs.getString(1));
+				user.setSex(rs.getString(3));
+				user.setRealname(rs.getString(6));
+				user.setRole(rs.getInt(7));
+				user.setStyle(rs.getString(8));
+				list.add(user);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public boolean modifyuser(User user) {
+		// TODO Auto-generated method stub
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0;
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("update user_info set sex=?,age=?,avatar=?,realname=?,role=?,style=? where username=?");
+			ps.setString(1, user.getSex());
+			ps.setString(2, user.getAge());
+			ps.setString(3, user.getAvatar());
+			ps.setString(4, user.getRealname());
+			ps.setInt(5, user.getRole());
+			ps.setString(6, user.getStyle());
+			ps.setString(7, user.getUsername());
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
 	}
 
 }

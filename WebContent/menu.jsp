@@ -50,14 +50,14 @@
 					<TR height=20>
 						<TD align=middle width=30><IMG height=9
 							src="images/menu_icon.gif" width=9></TD>
-						<TD><A class=menuChild href="common/changepwdswitch"
-							target="main">修改密码</A></TD>
+						<TD><A class=menuChild href="addUser.jsp"
+							target="main">添加普通用户</A></TD>
 					</TR>
 					<TR height=20>
 						<TD align=middle width=30><IMG height=9
 							src="images/menu_icon.gif" width=9></TD>
-						<TD><A class=menuChild href="common/getallclasses"
-							target="main">班级信息</A></TD>
+						<TD><A class=menuChild href="AllUserServlet"
+							target="main">普通用户</A></TD>
 					</TR>
 					<TR height=20>
 						<TD align=middle width=30><IMG height=9

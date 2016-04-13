@@ -15,8 +15,8 @@ import com.gem.hsx.daoimpl.UserDaoImpl;
 /**
  * Servlet implementation class AddDesignerServlet
  */
-@WebServlet("/AddDesignerServlet")
-public class AddDesignerServlet extends HttpServlet {
+@WebServlet("/ModifyDesignerServlet")
+public class ModifyDesignerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -37,28 +37,25 @@ public class AddDesignerServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
-		String username = request.getParameter("username");
-		String sex = request.getParameter("sex");
-		String age = request.getParameter("age");
-		String realname = request.getParameter("realname");
-		Designer designer = new Designer();
 		HttpSession session = request.getSession();
-		if (!new UserDaoImpl().check(username)) {
-			designer.setUsername(username);
-			designer.setPassword("000000");
-			designer.setSex(sex);
-			designer.setAge(age);
-			designer.setRealname(realname);
-			designer.setRole(1);
-			if (new UserDaoImpl().register(designer)) {
-				session.setAttribute("result", "添加成功");
-			} else {
-				session.setAttribute("result", "添加失败");
-			}
-			response.sendRedirect("result.jsp");
-		}else{
-			session.setAttribute("result", "用户名已存在");
-			response.sendRedirect("addDesigner.jsp");
+		Designer designer = new Designer();
+		designer.setUsername(request.getParameter("username"));
+		designer.setSex(request.getParameter("sex"));
+		designer.setAge(request.getParameter("age"));
+		designer.setAvatar(request.getParameter("avatar"));
+		designer.setRealname(request.getParameter("realname"));
+		designer.setRole(Integer.parseInt(request.getParameter("role")));
+		designer.setStyle(request.getParameter("style"));
+		designer.setConcept(request.getParameter("concept"));
+		designer.setMotto(request.getParameter("motto"));
+		designer.setWork(request.getParameter("work"));
+		designer.setPeriod(request.getParameter("period"));
+		designer.setArea(request.getParameter("area"));
+		if (new UserDaoImpl().modifyDesigner(designer)) {
+			session.setAttribute("result", "修改成功");
+		} else {
+			session.setAttribute("result", "修改失败");
 		}
+		response.sendRedirect("result.jsp");
 	}
 }

@@ -9,15 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.gem.hsx.bean.Designer;
+import com.gem.hsx.bean.User;
 import com.gem.hsx.daoimpl.UserDaoImpl;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
- * Servlet implementation class AddDesignerServlet
+ * Servlet implementation class AdduserServlet
  */
-@WebServlet("/SelectDesignerServlet")
-public class SelectDesignerServlet extends HttpServlet {
+@WebServlet("/ModifyUserServlet")
+public class ModifyUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -38,8 +37,20 @@ public class SelectDesignerServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
-		String username = request.getParameter("username");
-		request.getSession().setAttribute("designer", new UserDaoImpl().getDesignerDetail(username));
-		response.sendRedirect("designer.jsp");
+		HttpSession session = request.getSession();
+		User user = new User();
+		user.setUsername(request.getParameter("username"));
+		user.setSex(request.getParameter("sex"));
+		user.setAge(request.getParameter("age"));
+		user.setAvatar(request.getParameter("avatar"));
+		user.setRealname(request.getParameter("realname"));
+		user.setRole(Integer.parseInt(request.getParameter("role")));
+		user.setStyle(request.getParameter("style"));
+		if (new UserDaoImpl().modifyuser(user)) {
+			session.setAttribute("result", "修改成功");
+		} else {
+			session.setAttribute("result", "修改失败");
+		}
+		response.sendRedirect("result.jsp");
 	}
 }

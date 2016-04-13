@@ -34,7 +34,7 @@
 	<TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
 		<TR height=28>
 			<TD background=images/title_bg1.jpg
-				style="FONT-WEIGHT: bold; COLOR: black" align=middle>添加设计师</TD>
+				style="FONT-WEIGHT: bold; COLOR: black" align=middle>修改设计师信息</TD>
 		</TR>
 		<TR>
 			<TD bgColor=#b1ceef height=1></TD>
@@ -46,7 +46,7 @@
 		</TR>
 	</TABLE>
 	<center>
-		<form action="" method="post">
+		<form action="ModifyDesignerServlet" method="post">
 			<table>
 				<tr></tr>
 				<tr></tr>
@@ -128,11 +128,8 @@
 					<td><input type="text" name="area"
 						value="<%=designer.getArea()%>"></td>
 				</tr>
-				<input type="hidden" name="password"
-					value="<%=designer.getPassword()%>">
-				<input type="hidden" name="role" value="<%=designer.getRole()%>">
 				<tr>
-					<td colSpan=2 align=center><input type="submit" value="修改"></td>
+					<td colSpan=2 align=center><input type="hidden" name="role" value="<%=designer.getRole()%>"><input type="submit" value="修改"></td>
 				</tr>
 			</table>
 		</form>

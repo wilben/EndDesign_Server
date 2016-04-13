@@ -7,16 +7,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.gem.hsx.bean.Designer;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
 /**
  * Servlet implementation class AddDesignerServlet
  */
-@WebServlet("/AddDesignerServlet")
-public class AddDesignerServlet extends HttpServlet {
+@WebServlet("/ResetServlet")
+public class ResetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -38,27 +36,12 @@ public class AddDesignerServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		String username = request.getParameter("username");
-		String sex = request.getParameter("sex");
-		String age = request.getParameter("age");
-		String realname = request.getParameter("realname");
-		Designer designer = new Designer();
-		HttpSession session = request.getSession();
-		if (!new UserDaoImpl().check(username)) {
-			designer.setUsername(username);
-			designer.setPassword("000000");
-			designer.setSex(sex);
-			designer.setAge(age);
-			designer.setRealname(realname);
-			designer.setRole(1);
-			if (new UserDaoImpl().register(designer)) {
-				session.setAttribute("result", "添加成功");
-			} else {
-				session.setAttribute("result", "添加失败");
-			}
-			response.sendRedirect("result.jsp");
-		}else{
-			session.setAttribute("result", "用户名已存在");
-			response.sendRedirect("addDesigner.jsp");
+		int role = Integer.parseInt(request.getParameter("role"));
+		if (new UserDaoImpl().resetPwd(username,role)) {
+			request.getSession().setAttribute("result", "重置密码成功");
+		} else {
+			request.getSession().setAttribute("result", "重置密码失败");
 		}
+		response.sendRedirect("result.jsp");
 	}
 }

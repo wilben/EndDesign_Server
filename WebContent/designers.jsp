@@ -46,7 +46,6 @@
 		</TR>
 	</TABLE>
 	<center>
-		<form action="AddDesignerServlet" method="post">
 			<table>
 				<%
 					List<Designer> designers = (List) session.getAttribute("designers");
@@ -60,6 +59,7 @@
 					<td>真实姓名</td>
 					<td>风格</td>
 					<td>修改</td>
+					<td>重置密码</td>
 					<td>删除</td>
 				</tr>
 				<%
@@ -80,14 +80,17 @@
 					<td><%=designer.getSex()%></td>
 					<td><%=designer.getRealname()%></td>
 					<td><%=designer.getStyle()%></td>
-					<td><a href="SelectDesignerServlet?username=<%=designer.getUsername() %>">修改</a></td>
-					<td><a href="">删除</a></td>
+					<td><a
+						href="SelectInfoServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">修改</a></td>
+					<td><a
+						href="ResetServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">重置密码</a></td>
+					<td><a
+						href="DeleteInfoServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">删除</a></td>
 				</tr>
 				<%
 					}
 				%>
 			</table>
-		</form>
 	</center>
 </BODY>
 </HTML>
