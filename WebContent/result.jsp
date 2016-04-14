@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>操作结果</title>
 </head>
+<jsp:include page="isLogin.jsp"></jsp:include>
 <body>
 <%=session.getAttribute("result")%>
 <%session.removeAttribute("result");%>

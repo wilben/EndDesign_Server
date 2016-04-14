@@ -11,28 +11,41 @@ import javax.servlet.http.HttpServletResponse;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class AllDesignerServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/AllProjectServlet")
+public class AllProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LoginServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	private String cur, totalPage;
+	private int totalRecord;
+	private int DATA_PER_PAGE = 15;
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doPost(request, response);
+		if (request.getParameter("cur") != null) {
+			cur = request.getParameter("cur");
+		} else {
+			cur = "1";
+		}
+		request.getSession().setAttribute("cur", cur);
+		totalRecord = new UserDaoImpl().getTotalRecord();
+		if (totalRecord % DATA_PER_PAGE == 0) {
+			totalPage = String.valueOf(totalRecord / DATA_PER_PAGE);
+		} else {
+			totalPage = String.valueOf(totalRecord / DATA_PER_PAGE + 1);
+		}
+		request.getSession().setAttribute("totalPage", totalPage);
+		request.getSession().setAttribute(
+				"projects",
+				new UserDaoImpl().selectAllProject(Integer.parseInt(cur),
+						DATA_PER_PAGE));
+		response.sendRedirect("projects.jsp");
 	}
 
 	/**
@@ -42,15 +55,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		int result = new UserDaoImpl().login(username, password);
-		if (result != -1) {
-			request.getSession().setAttribute("Login", "true");
-			response.sendRedirect("main.jsp");
-		} else {
-			response.sendRedirect("login.jsp");
-		}
+		doGet(request, response);
 	}
 
 }

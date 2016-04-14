@@ -14,6 +14,7 @@
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <base href="<%=basePath%>">
 </HEAD>
+<jsp:include page="isLogin.jsp"></jsp:include>
 <style type="text/css">
 .errorMessage {
 	font-size: 12px;
@@ -82,9 +83,9 @@
 					<td><%=designer.getStyle()%></td>
 					<td><a
 						href="SelectInfoServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">修改</a></td>
-					<td><a
+					<td><a onclick="if (confirm('确定要重置密码吗？')) return true; else return false;"
 						href="ResetServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">重置密码</a></td>
-					<td><a
+					<td><a onclick="if (confirm('确定要删除吗？')) return true; else return false;"
 						href="DeleteInfoServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">删除</a></td>
 				</tr>
 				<%

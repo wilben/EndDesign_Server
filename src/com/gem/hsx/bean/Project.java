@@ -1,5 +1,6 @@
 package com.gem.hsx.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,11 @@ import java.util.ArrayList;
  * 
  */
 
-public class Project {
+public class Project implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String image; // 封面
 	private String title; // 标题
 	private String time; // 时间

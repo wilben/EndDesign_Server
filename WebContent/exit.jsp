@@ -10,21 +10,21 @@
 <HTML>
 <HEAD>
 <base href="<%=basePath%>">
-<TITLE>管理中心 V1.0</TITLE>
+<TITLE></TITLE>
 <META http-equiv=Content-Type content="text/html; charset=gb2312">
-<META http-equiv=Pragma content=no-cache>
-<META http-equiv=Cache-Control content=no-cache>
-<META http-equiv=Expires content=-1000>
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+.errorMessage {
+	font-size: 12px;
+	color: red;
+}
+</style>
 </HEAD>
 <jsp:include page="isLogin.jsp"></jsp:include>
-<FRAMESET border=0 frameSpacing=0 rows="80, *" frameBorder=0>
-	<FRAME name=header src="header.jsp" frameBorder=0 noResize scrolling=no>
-	<FRAMESET cols="190, *">
-		<FRAME name=menu src="menu.jsp" frameBorder=0 noResize scrolling=no>
-		<FRAME name=main src="main.jsp" frameBorder=0 noResize scrolling=yes>
-	</FRAMESET>
-</FRAMESET>
-<noframes>
-</noframes>
+<BODY>
+	<%
+		session.removeAttribute("Login");
+	%>
+	<jsp:forward page="login.jsp"></jsp:forward>
+</BODY>
 </HTML>

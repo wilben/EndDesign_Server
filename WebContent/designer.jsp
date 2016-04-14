@@ -14,6 +14,7 @@
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <base href="<%=basePath%>">
 </HEAD>
+<jsp:include page="isLogin.jsp"></jsp:include>
 <style type="text/css">
 .errorMessage {
 	font-size: 12px;
@@ -129,7 +130,10 @@
 						value="<%=designer.getArea()%>"></td>
 				</tr>
 				<tr>
-					<td colSpan=2 align=center><input type="hidden" name="role" value="<%=designer.getRole()%>"><input type="submit" value="修改"></td>
+					<td colSpan=2 align=center><input type="hidden" name="role"
+						value="<%=designer.getRole()%>"><input type="submit"
+						value="修改"
+						onclick="if (confirm('确定要提交修改吗？')) return true; else return false;"></td>
 				</tr>
 			</table>
 		</form>

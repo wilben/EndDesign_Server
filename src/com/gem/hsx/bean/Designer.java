@@ -1,5 +1,7 @@
 package com.gem.hsx.bean;
 
+import java.io.Serializable;
+
 /**
  * 设计师实体
  * 
@@ -7,7 +9,8 @@ package com.gem.hsx.bean;
  * 
  */
 
-public class Designer {
+@SuppressWarnings("serial")
+public class Designer implements Serializable{
 
 	private String username; // 用户名
 	private String password; // 密码

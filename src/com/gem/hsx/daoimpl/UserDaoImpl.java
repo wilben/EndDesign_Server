@@ -486,6 +486,7 @@ public class UserDaoImpl {
 				ps.setInt(1, workId);
 				rs = ps.executeQuery();
 				if (rs.next()) {
+					project.setWorkId(rs.getInt(1));
 					project.setTitle(rs.getString(2));
 					project.setTime(rs.getString(4));
 					project.setDescription(rs.getString(5));
@@ -510,6 +511,7 @@ public class UserDaoImpl {
 				ps.setInt(1, workId);
 				rs = ps.executeQuery();
 				if (rs.next()) {
+					project.setWorkId(rs.getInt(1));
 					project.setTitle(rs.getString(3));
 					project.setDesignername(rs.getString(7));
 					project.setUsername(rs.getString(6));
@@ -1106,4 +1108,216 @@ public class UserDaoImpl {
 		return b;
 	}
 
+	public List<Project> selectAllProject(int cur, int DATA_PER_PAGE) {
+		// TODO Auto-generated method stub
+		List<Project> list = new ArrayList<Project>();
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from work order by time limit ?,?");
+			ps.setInt(1, (cur - 1) * DATA_PER_PAGE);
+			ps.setInt(2, DATA_PER_PAGE);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Project project = new Project();
+				project.setWorkId(rs.getInt(1));
+				project.setTime(rs.getString(2));
+				project.setTitle(rs.getString(3));
+				project.setState(rs.getInt(5));
+				project.setUsername(rs.getString(6));
+				project.setDesignername(rs.getString(7));
+				list.add(project);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public boolean modifyProject(Project project) {
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0, k = 1;
+		PreparedStatement ps;
+		String s1 = null;
+		Connection conn = getConn.getConnection();
+		try {
+			s1 = "update work set title=?,description=?,style=?,time=?,state=? where workId=?";
+			ps = conn.prepareStatement(s1);
+			ps.setString(1, project.getTitle());
+			ps.setString(2, project.getDescription());
+			ps.setString(3, project.getStyle());
+			ps.setString(4, project.getTime());
+			ps.setInt(5, project.getState());
+			ps.setInt(6, project.getWorkId());
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+
+	public int getTotalRecord() {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		int num = 0;
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select count(*) from work ");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				num = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return num;
+	}
+
+	public int getTotalRecord(String content1, String content2) {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		int num = 0, state = 3;
+		PreparedStatement ps;
+		ResultSet rs = null;
+		try {
+			if (content1.equals("") && content2.equals("")) {
+				ps = conn.prepareStatement("select count(*) from work");
+				rs = ps.executeQuery();
+			} else if (!content1.equals("") && content2.equals("")) {
+				ps = conn
+						.prepareStatement("select count(*) from work where title like ? or username like ? or designername like ?");
+				ps.setString(1, "%" + content1 + "%");
+				ps.setString(2, "%" + content1 + "%");
+				ps.setString(3, "%" + content1 + "%");
+				rs = ps.executeQuery();
+			} else if (content1.equals("") && !content2.equals("")) {
+				if (content2.equals("已取消")) {
+					state = -1;
+				} else if (content2.equals("待设计")) {
+					state = 0;
+				} else if (content2.equals("设计中")) {
+					state = 1;
+				} else if (content2.equals("已完成")) {
+					state = 2;
+				}
+				ps = conn
+						.prepareStatement("select count(*) from work where state=?");
+				ps.setInt(1, state);
+				rs = ps.executeQuery();
+			} else {
+				if (content2.equals("已取消")) {
+					state = -1;
+				} else if (content2.equals("待设计")) {
+					state = 0;
+				} else if (content2.equals("设计中")) {
+					state = 1;
+				} else if (content2.equals("已完成")) {
+					state = 2;
+				}
+				ps = conn
+						.prepareStatement("select count(*) from work where title like ? or username like ? or designername like ? and state=?");
+				ps.setString(1, "%" + content1 + "%");
+				ps.setString(2, "%" + content1 + "%");
+				ps.setString(3, "%" + content1 + "%");
+				ps.setInt(4, state);
+				rs = ps.executeQuery();
+			}
+			if (rs.next()) {
+				num = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return num;
+	}
+
+	public List<Project> selectAllProject(String content1, String content2,
+			int cur, int DATA_PER_PAGE) {
+		// TODO Auto-generated method stub
+		List<Project> list = new ArrayList<Project>();
+		GetConn getConn = new GetConn();
+		int state = 3;
+		Connection conn = getConn.getConnection();
+		PreparedStatement ps;
+		ResultSet rs = null;
+		try {
+			if (content1.equals("") && content2.equals("")) {
+				ps = conn
+						.prepareStatement("select * from work order by time limit ?,?");
+				ps.setInt(1, (cur - 1) * DATA_PER_PAGE);
+				ps.setInt(2, DATA_PER_PAGE);
+				rs = ps.executeQuery();
+			} else if (!content1.equals("") && content2.equals("")) {
+				ps = conn
+						.prepareStatement("select * from work where title like ? or username like ? or designername like ? order by time limit ?,?");
+				ps.setString(1, "%" + content1 + "%");
+				ps.setString(2, "%" + content1 + "%");
+				ps.setString(3, "%" + content1 + "%");
+				ps.setInt(4, (cur - 1) * DATA_PER_PAGE);
+				ps.setInt(5, DATA_PER_PAGE);
+				rs = ps.executeQuery();
+			} else if (content1.equals("") && !content2.equals("")) {
+				if (content2.equals("已取消")) {
+					state = -1;
+				} else if (content2.equals("待设计")) {
+					state = 0;
+				} else if (content2.equals("设计中")) {
+					state = 1;
+				} else if (content2.equals("已完成")) {
+					state = 2;
+				}
+				ps = conn
+						.prepareStatement("select * from work where state=? order by time limit ?,?");
+				ps.setInt(1, state);
+				ps.setInt(2, (cur - 1) * DATA_PER_PAGE);
+				ps.setInt(3, DATA_PER_PAGE);
+				rs = ps.executeQuery();
+			} else {
+				if (content2.equals("已取消")) {
+					state = -1;
+				} else if (content2.equals("待设计")) {
+					state = 0;
+				} else if (content2.equals("设计中")) {
+					state = 1;
+				} else if (content2.equals("已完成")) {
+					state = 2;
+				}
+				ps = conn
+						.prepareStatement("select * from work where title like ? or username like ? or designername like ? and state=? order by time limit ?,?");
+				ps.setString(1, "%" + content1 + "%");
+				ps.setString(2, "%" + content1 + "%");
+				ps.setString(3, "%" + content1 + "%");
+				ps.setInt(4, state);
+				ps.setInt(5, (cur - 1) * DATA_PER_PAGE);
+				ps.setInt(6, DATA_PER_PAGE);
+				rs = ps.executeQuery();
+			}
+			while (rs.next()) {
+				Project project = new Project();
+				project.setWorkId(rs.getInt(1));
+				project.setTime(rs.getString(2));
+				project.setTitle(rs.getString(3));
+				project.setState(rs.getInt(5));
+				project.setUsername(rs.getString(6));
+				project.setDesignername(rs.getString(7));
+				list.add(project);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

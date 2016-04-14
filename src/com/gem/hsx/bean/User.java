@@ -1,5 +1,7 @@
 package com.gem.hsx.bean;
 
+import java.io.Serializable;
+
 /**
  * 用户实体
  * 
@@ -7,8 +9,12 @@ package com.gem.hsx.bean;
  * 
  */
 
-public class User {
+public class User implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String username; // 用户名
 	private String password; // 密码
 	private String sex; // 性别

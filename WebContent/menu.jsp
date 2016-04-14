@@ -13,6 +13,7 @@
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 
 </HEAD>
+<jsp:include page="isLogin.jsp"></jsp:include>
 <BODY>
 	<TABLE height="100%" cellSpacing=0 cellPadding=0 width=190
 		background=images/menu_bg.jpg border=0>
@@ -62,8 +63,8 @@
 					<TR height=20>
 						<TD align=middle width=30><IMG height=9
 							src="images/menu_icon.gif" width=9></TD>
-						<TD><A class=menuChild href="common/addclassswitch"
-							target="main">添加新班级</A></TD>
+						<TD><A class=menuChild href="AllProjectServlet"
+							target="main">项目管理</A></TD>
 					</TR>
 					<TR height=20>
 						<TD align=middle width=30><IMG height=9

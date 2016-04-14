@@ -13,6 +13,7 @@
 <META http-equiv=Content-Type content="text/html; charset=gb2312">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 </HEAD>
+<jsp:include page="isLogin.jsp"></jsp:include>
 <BODY>
 	<TABLE cellSpacing=0 cellPadding=0 width="100%"
 		background="images/header_bg.jpg" border=0>
@@ -25,7 +26,7 @@
 				align=right>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 				<A style="COLOR: #fff; font-size: 15px"
 				onclick="if (confirm('确定要退出吗？')) return true; else return false;"
-				href="exit" target=_top>退出系统</A>
+				href="exit.jsp" target=_top>退出系统</A>
 			</TD>
 			<TD align=right width=268></TD>
 		</TR>

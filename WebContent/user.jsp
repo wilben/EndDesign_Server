@@ -14,6 +14,7 @@
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <base href="<%=basePath%>">
 </HEAD>
+<jsp:include page="isLogin.jsp"></jsp:include>
 <style type="text/css">
 .errorMessage {
 	font-size: 12px;
@@ -94,6 +95,7 @@
 				<tr>
 					<td colSpan=2 align=center><input type="hidden" name="role"
 						value="<%=user.getRole()%>"><input type="submit"
+						onclick="if (confirm('确定要提交修改吗？')) return true; else return false;"
 						value="修改"></td>
 				</tr>
 			</table>

@@ -10,7 +10,7 @@
 <HTML>
 <HEAD>
 <base href="<%=basePath%>">
-<TITLE>学生档案管理系统</TITLE>
+<TITLE>装修设计信息管理系统</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=gb2312">
 <LINK href="css/admin.css" type="text/css" rel="stylesheet">
 <style type="text/css">

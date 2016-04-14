@@ -8,22 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gem.hsx.bean.Project;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class AddDesignerServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/SelectProjectServlet")
+public class SelectProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LoginServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -42,15 +35,11 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		int result = new UserDaoImpl().login(username, password);
-		if (result != -1) {
-			request.getSession().setAttribute("Login", "true");
-			response.sendRedirect("main.jsp");
-		} else {
-			response.sendRedirect("login.jsp");
-		}
+		request.setCharacterEncoding("utf-8");
+		int workId = Integer.parseInt(request.getParameter("workId"));
+		int state = Integer.parseInt(request.getParameter("state"));
+		Project project = new UserDaoImpl().getWorkDetail(workId, state);
+		request.getSession().setAttribute("project", project);
+		response.sendRedirect("project.jsp");
 	}
-
 }
