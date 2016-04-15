@@ -14,8 +14,8 @@ import com.gem.hsx.daoimpl.UserDaoImpl;
 /**
  * Servlet implementation class AddDesignerServlet
  */
-@WebServlet("/SelectProjectServlet")
-public class SelectProjectServlet extends HttpServlet {
+@WebServlet("/SelectWorkServlet")
+public class SelectWorkServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -37,9 +37,8 @@ public class SelectProjectServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		int workId = Integer.parseInt(request.getParameter("workId"));
-		int state = Integer.parseInt(request.getParameter("state"));
-		Project project = new UserDaoImpl().getProjectDetail(workId, state);
-		request.getSession().setAttribute("project", project);
-		response.sendRedirect("project.jsp");
+		Project project = new UserDaoImpl().getWorkDetail(workId);
+		request.getSession().setAttribute("work", project);
+		response.sendRedirect("work.jsp");
 	}
 }

@@ -1,3 +1,4 @@
+<%@page import="com.gem.hsx.servlet.Login"%>
 <%@page import="com.gem.hsx.bean.Designer"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
@@ -48,7 +49,7 @@
 	</TABLE>
 	<center>
 		<form action="ModifyDesignerServlet" method="post">
-			<table>
+			<table >
 				<tr></tr>
 				<tr></tr>
 				<%
@@ -75,58 +76,60 @@
 						designer.setArea("");
 				%>
 				<tr>
-					<td>用户名</td>
-					<td><input type="text" name="username" readOnly="readonly"
+					<td width=70>头像</td>
+					<td><img name="avatar"
+						src="<%=(designer.getAvatar() == null || designer.getAvatar()
+					.equals("")) ? Login.url + "images/default.jpg" : Login.url
+					+ designer.getAvatar()%>"
+						width="107" height="97"></td>
+				</tr>
+				<tr>
+					<td >用户名</td>
+					<td  ><input type="text" name="username" readOnly="readonly"
 						value="<%=designer.getUsername()%>"></td>
 				</tr>
 				<tr>
-					<td>性别</td>
-					<td><input type="text" name="sex"
+					<td >性别</td>
+					<td ><input type="text" name="sex"
 						value="<%=designer.getSex()%>"></td>
 				</tr>
 				<tr>
-					<td>年龄</td>
-					<td><input type="text" name="age"
+					<td >年龄</td>
+					<td ><input type="text" name="age"
 						value="<%=designer.getAge()%>"></td>
 				</tr>
 				<tr>
-					<td>头像</td>
-					<td><input type="text" name="avatar"
-						value="<%=designer.getAvatar()%>"></td>
-				</tr>
-				<tr>
-					<td>真实姓名</td>
-					<td><input type="text" name="realname"
+					<td >真实姓名</td>
+					<td ><input type="text" name="realname"
 						value="<%=designer.getRealname()%>"></td>
 				</tr>
 				<tr>
-					<td>风格</td>
-					<td><input type="text" name="style"
+					<td >风格</td>
+					<td ><input type="text" name="style"
 						value="<%=designer.getStyle()%>"></td>
 				</tr>
 				<tr>
-					<td>设计理念</td>
-					<td><input type="text" name="concept"
-						value="<%=designer.getConcept()%>"></td>
+					<td >设计理念</td>
+					<td ><textarea name="concept"><%=designer.getConcept()%></textarea>
+					</td>
 				</tr>
 				<tr>
-					<td>人生格言</td>
-					<td><input type="text" name="motto"
-						value="<%=designer.getMotto()%>"></td>
+					<td >人生格言</td>
+					<td ><textarea name="motto"><%=designer.getMotto()%></textarea>
+					</td>
 				</tr>
 				<tr>
-					<td>作品</td>
-					<td><input type="text" name="work"
-						value="<%=designer.getWork()%>"></td>
+					<td >作品</td>
+					<td ><textarea name="work"><%=designer.getWork()%></textarea>
 				</tr>
 				<tr>
-					<td>从业年限</td>
-					<td><input type="text" name="period"
+					<td >从业年限</td>
+					<td ><input type="text" name="period"
 						value="<%=designer.getPeriod()%>"></td>
 				</tr>
 				<tr>
-					<td>服务区域</td>
-					<td><input type="text" name="area"
+					<td >服务区域</td>
+					<td ><input type="text" name="area"
 						value="<%=designer.getArea()%>"></td>
 				</tr>
 				<tr>

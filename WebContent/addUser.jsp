@@ -75,7 +75,7 @@
 				<tr></tr>
 				<tr>
 					<td>用户名</td>
-					<td><input type="text" name="username"></td>
+					<td><input type="text" name="username" id="username"></td>
 				</tr>
 				<tr>
 					<td>性别</td>

@@ -10,7 +10,7 @@
 <HTML>
 <HEAD>
 <base href="<%=basePath%>">
-<TITLE>管理中心 V1.0</TITLE>
+<TITLE>装修设计信息管理系统</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=gb2312">
 <META http-equiv=Pragma content=no-cache>
 <META http-equiv=Cache-Control content=no-cache>

@@ -13,13 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.gem.hsx.daoimpl.UserDaoImpl;
+
 /**
  * 登录
+ * 
  * @author wilben
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class Login extends HttpServlet {
+
+	public static String url = "http://127.0.0.1:8080/Login/";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

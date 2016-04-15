@@ -47,16 +47,16 @@
 		</TR>
 	</TABLE>
 	<center>
-		<table>
-			<%
-				int cur = Integer.parseInt((String) session.getAttribute("cur"));
-				int totalPage = Integer.parseInt((String) session
-						.getAttribute("totalPage"));
-				List<Project> projects = (List) session.getAttribute("projects");
-				Iterator iter = projects.iterator();
-			%>
-			<tr>
-				<form action="SearchProjectServlet" method="post">
+		<%
+			int cur = Integer.parseInt((String) session.getAttribute("cur"));
+			int totalPage = Integer.parseInt((String) session
+					.getAttribute("totalPage"));
+			List<Project> projects = (List) session.getAttribute("projects");
+			Iterator iter = projects.iterator();
+		%>
+		<form action="SearchProjectServlet" method="post">
+			<table>
+				<tr>
 					<td><input type="text" name="content1" value="项目名称/用户/设计师"
 						onFocus="if(value==defaultValue){value='';this.style.color='#000'}"
 						onBlur="if(!value){value=defaultValue;this.style.color='#999'}"
@@ -66,29 +66,32 @@
 						onBlur="if(!value){value=defaultValue;this.style.color='#999'}"
 						style="color: #999999"></td>
 					<td><input type="submit" value="查询"></td>
-				</form>
-			</tr>
+				</tr>
+			</table>
+		</form>
+		<table cellSpacing=0 cellPadding=2 width="60%" align=center
+			class="table" border="1px">
 			<tr></tr>
 			<tr></tr>
 			<tr>
-				<td>时间</td>
-				<td>项目名称</td>
-				<td>用户</td>
-				<td>设计师</td>
-				<td>状态</td>
-				<td>修改</td>
-				<td>取消</td>
+				<td align=center width=100>时间</td>
+				<td align=center width=100>项目名称</td>
+				<td align=center width=100>用户</td>
+				<td align=center width=100>设计师</td>
+				<td align=center width=100>状态</td>
+				<td align=center width=100>修改</td>
+				<td align=center width=100>取消</td>
 			</tr>
 			<%
 				while (iter.hasNext()) {
 					Project project = (Project) iter.next();
 			%>
 			<tr>
-				<td><%=project.getTime()%></td>
-				<td><%=project.getTitle()%></td>
-				<td><%=project.getUsername()%></td>
-				<td><%=project.getDesignername()%></td>
-				<td>
+				<td align=center width=100><%=project.getTime()%></td>
+				<td align=center width=130><%=project.getTitle()%></td>
+				<td align=center width=100><%=project.getUsername()%></td>
+				<td align=center width=100><%=project.getDesignername()%></td>
+				<td align=center width=100>
 					<%
 						if (project.getState() == -1) {
 					%><%="已取消"%> <%
@@ -102,17 +105,20 @@
  %>
 				</td>
 
-				<td><a
+				<td align=center width=100><a
 					href="SelectProjectServlet?workId=<%=project.getWorkId()%>&state=<%=project.getState()%>">修改</a></td>
-				<td><a
+				<td align=center width=100><a
 					onclick="if (confirm('确定要取消项目吗？')) return true; else return false;"
 					href="CancelProjectServlet?workId=<%=project.getWorkId()%>">取消</a></td>
+				<%
+					session.setAttribute("flag", "projects");
+				%>
 			</tr>
 			<%
 				}
 			%>
+			<table>
 			<tr>
-				<td></td>
 				<%
 					if (cur == 1) {
 				%>
@@ -140,9 +146,8 @@
 				<%
 					}
 				%>
-
-				<td></td>
 			</tr>
+			</table>
 		</table>
 	</center>
 </BODY>

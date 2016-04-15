@@ -1,3 +1,4 @@
+<%@page import="com.gem.hsx.servlet.Login"%>
 <%@page import="com.gem.hsx.bean.User"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
@@ -65,6 +66,14 @@
 						user.setStyle("");
 				%>
 				<tr>
+					<td width=70>头像</td>
+					<td><img name="avatar"
+						src="<%=(user.getAvatar() == null || user.getAvatar().equals("")) ? Login.url
+					+ "images/default.jpg"
+					: Login.url + user.getAvatar()%>"
+						width="107" height="97"></td>
+				</tr>
+				<tr>
 					<td>用户名</td>
 					<td><input type="text" name="username" readOnly="readonly"
 						value="<%=user.getUsername()%>"></td>
@@ -76,11 +85,6 @@
 				<tr>
 					<td>年龄</td>
 					<td><input type="text" name="age" value="<%=user.getAge()%>"></td>
-				</tr>
-				<tr>
-					<td>头像</td>
-					<td><input type="text" name="avatar"
-						value="<%=user.getAvatar()%>"></td>
 				</tr>
 				<tr>
 					<td>真实姓名</td>

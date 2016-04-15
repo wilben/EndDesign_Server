@@ -47,7 +47,8 @@
 		</TR>
 	</TABLE>
 	<center>
-			<table>
+			<table cellSpacing=0 cellPadding=2 width="60%" align=center
+			class="table" border="1px">
 				<%
 					List<Designer> designers = (List) session.getAttribute("designers");
 					Iterator iter = designers.iterator();
@@ -55,13 +56,13 @@
 				<tr></tr>
 				<tr></tr>
 				<tr>
-					<td>用户名</td>
-					<td>性别</td>
-					<td>真实姓名</td>
-					<td>风格</td>
-					<td>修改</td>
-					<td>重置密码</td>
-					<td>删除</td>
+					<td align=center width=100>用户名</td>
+					<td align=center width=100>性别</td>
+					<td align=center width=100>真实姓名</td>
+					<td align=center width=100>风格</td>
+					<td align=center width=100>修改</td>
+					<td align=center width=100>重置密码</td>
+					<td align=center width=100>删除</td>
 				</tr>
 				<%
 					while (iter.hasNext()) {
@@ -77,15 +78,15 @@
 						}
 				%>
 				<tr>
-					<td><%=designer.getUsername()%></td>
-					<td><%=designer.getSex()%></td>
-					<td><%=designer.getRealname()%></td>
-					<td><%=designer.getStyle()%></td>
-					<td><a
+					<td align=center width=100><%=designer.getUsername()%></td>
+					<td align=center width=100><%=designer.getSex()%></td>
+					<td align=center width=100><%=designer.getRealname()%></td>
+					<td align=center width=130><%=designer.getStyle()%></td>
+					<td align=center width=100><a
 						href="SelectInfoServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">修改</a></td>
-					<td><a onclick="if (confirm('确定要重置密码吗？')) return true; else return false;"
+					<td align=center width=100><a onclick="if (confirm('确定要重置密码吗？')) return true; else return false;"
 						href="ResetServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">重置密码</a></td>
-					<td><a onclick="if (confirm('确定要删除吗？')) return true; else return false;"
+					<td align=center width=100><a onclick="if (confirm('确定要删除吗？')) return true; else return false;"
 						href="DeleteInfoServlet?username=<%=designer.getUsername()%>&role=<%=designer.getRole()%>">删除</a></td>
 				</tr>
 				<%

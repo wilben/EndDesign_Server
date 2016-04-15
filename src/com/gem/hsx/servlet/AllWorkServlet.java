@@ -8,24 +8,44 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.gem.hsx.bean.Project;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
 /**
- * Servlet implementation class AddDesignerServlet
+ * Servlet implementation class AllDesignerServlet
  */
-@WebServlet("/SelectProjectServlet")
-public class SelectProjectServlet extends HttpServlet {
+@WebServlet("/AllWorkServlet")
+public class AllWorkServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	private String cur, totalPage;
+	private int totalRecord;
+	private int DATA_PER_PAGE = 15;
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doPost(request, response);
+		if (request.getParameter("cur") != null) {
+			cur = request.getParameter("cur");
+		} else {
+			cur = "1";
+		}
+		request.getSession().setAttribute("cur", cur);
+		totalRecord = new UserDaoImpl().getWorkRecord();
+		if (totalRecord % DATA_PER_PAGE == 0) {
+			totalPage = String.valueOf(totalRecord / DATA_PER_PAGE);
+		} else {
+			totalPage = String.valueOf(totalRecord / DATA_PER_PAGE + 1);
+		}
+		request.getSession().setAttribute("totalPage", totalPage);
+		request.getSession().setAttribute(
+				"works",
+				new UserDaoImpl().selectAllWork(Integer.parseInt(cur),
+						DATA_PER_PAGE));
+		response.sendRedirect("works.jsp");
 	}
 
 	/**
@@ -35,11 +55,7 @@ public class SelectProjectServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
-		int workId = Integer.parseInt(request.getParameter("workId"));
-		int state = Integer.parseInt(request.getParameter("state"));
-		Project project = new UserDaoImpl().getProjectDetail(workId, state);
-		request.getSession().setAttribute("project", project);
-		response.sendRedirect("project.jsp");
+		doGet(request, response);
 	}
+
 }

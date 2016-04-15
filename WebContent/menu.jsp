@@ -69,26 +69,14 @@
 					<TR height=20>
 						<TD align=middle width=30><IMG height=9
 							src="images/menu_icon.gif" width=9></TD>
-						<TD><A class=menuChild href="common/getallprizes"
-							target="main">奖惩管理</A></TD>
+						<TD><A class=menuChild href="FinishProjectServlet"
+							target="main">添加经典案例</A></TD>
 					</TR>
 					<TR height=20>
 						<TD align=middle width=30><IMG height=9
 							src="images/menu_icon.gif" width=9></TD>
-						<TD><A class=menuChild href="common/addprizeswitch"
-							target="main">添加新奖惩</A></TD>
-					</TR>
-					<TR height=20>
-						<TD align=middle width=30><IMG height=9
-							src="images/menu_icon.gif" width=9></TD>
-						<TD><A class=menuChild href="common/checkuserprizes"
-							target="main">学生奖惩情况</A></TD>
-					</TR>
-					<TR height=20>
-						<TD align=middle width=30><IMG height=9
-							src="images/menu_icon.gif" width=9></TD>
-						<TD><A class=menuChild href="common/adduserprizeswitch"
-							target="main">添加学生奖惩记录</A></TD>
+						<TD><A class=menuChild href="AllWorkServlet"
+							target="main">经典案例</A></TD>
 					</TR>
 				</TABLE>
 	</TABLE>

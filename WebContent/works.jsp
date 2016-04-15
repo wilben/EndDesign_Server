@@ -1,4 +1,3 @@
-<%@page import="java.net.URLEncoder"%>
 <%@page import="com.gem.hsx.bean.Project"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
@@ -36,7 +35,7 @@
 	<TABLE cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
 		<TR height=28>
 			<TD background=images/title_bg1.jpg
-				style="FONT-WEIGHT: bold; COLOR: black" align=middle>项目列表</TD>
+				style="FONT-WEIGHT: bold; COLOR: black" align=middle>经典案例列表</TD>
 		</TR>
 		<TR>
 			<TD bgColor=#b1ceef height=1></TD>
@@ -48,30 +47,15 @@
 		</TR>
 	</TABLE>
 	<center>
-		<%
-			int cur = Integer.parseInt((String) session.getAttribute("cur"));
-			int totalPage = Integer.parseInt((String) session
-					.getAttribute("totalPage"));
-			List<Project> projects = (List) session.getAttribute("projects");
-			Iterator iter = projects.iterator();
-		%>
-		<form action="SearchProjectServlet" method="post">
-			<table>
-				<tr>
-					<td><input type="text" name="content1" value="项目名称/用户/设计师"
-						onFocus="if(value==defaultValue){value='';this.style.color='#000'}"
-						onBlur="if(!value){value=defaultValue;this.style.color='#999'}"
-						style="color: #999999"></td>
-					<td><input type="text" name="content2" value="项目状态"
-						onFocus="if(value==defaultValue){value='';this.style.color='#000'}"
-						onBlur="if(!value){value=defaultValue;this.style.color='#999'}"
-						style="color: #999999"></td>
-					<td><input type="submit" value="查询"></td>
-				</tr>
-			</table>
-		</form>
 		<table cellSpacing=0 cellPadding=2 width="60%" align=center
 			class="table" border="1px">
+			<%
+				int cur = Integer.parseInt((String) session.getAttribute("cur"));
+				int totalPage = Integer.parseInt((String) session
+						.getAttribute("totalPage"));
+				List<Project> projects = (List) session.getAttribute("works");
+				Iterator iter = projects.iterator();
+			%>
 			<tr></tr>
 			<tr></tr>
 			<tr>
@@ -80,8 +64,8 @@
 				<td align=center width=100>用户</td>
 				<td align=center width=100>设计师</td>
 				<td align=center width=100>状态</td>
-				<td align=center width=100>修改</td>
-				<td align=center width=100>取消</td>
+				<td align=center width=100>查看详情</td>
+				<td align=center width=100>删除</td>
 			</tr>
 			<%
 				while (iter.hasNext()) {
@@ -92,25 +76,13 @@
 				<td align=center width=130><%=project.getTitle()%></td>
 				<td align=center width=100><%=project.getUsername()%></td>
 				<td align=center width=100><%=project.getDesignername()%></td>
-				<td align=center width=100>
-					<%
-						if (project.getState() == -1) {
-					%><%="已取消"%> <%
- 	} else if (project.getState() == 0) {
- %><%="待设计"%> <%
- 	} else if (project.getState() == 1) {
- %><%="设计中"%> <%
- 	} else {
- %><%="已完成"%> <%
- 	}
- %>
-				</td>
+				<td align=center width=100><%="已完成"%></td>
 
 				<td align=center width=100><a
-					href="SelectProjectServlet?workId=<%=project.getWorkId()%>&state=<%=project.getState()%>">修改</a></td>
+					href="SelectWorkServlet?workId=<%=project.getWorkId()%>">查看详情</a></td>
 				<td align=center width=100><a
-					onclick="if (confirm('确定要取消项目吗？')) return true; else return false;"
-					href="CancelProjectServlet?workId=<%=project.getWorkId()%>">取消</a></td>
+					onclick="if (confirm('确定要删除吗？')) return true; else return false;"
+					href="DeleteWorkServlet?workId=<%=project.getWorkId()%>">删除</a></td>
 			</tr>
 			<%
 				}
@@ -125,8 +97,8 @@
 					<%
 						} else if (cur != 1) {
 					%>
-					<td><a href="SearchProjectServlet?cur=1">首页</a></td>
-					<td><a href="SearchProjectServlet?cur=<%=cur - 1%>">上一页</a></td>
+					<td><a href="AllProjectServlet?cur=1">首页</a></td>
+					<td><a href="AllProjectServlet?cur=<%=cur - 1%>">上一页</a></td>
 					<%
 						}
 					%>
@@ -139,8 +111,8 @@
 					<%
 						} else if (cur != totalPage) {
 					%>
-					<td><a href="SearchProjectServlet?cur=<%=cur + 1%>">下一页</a></td>
-					<td><a href="SearchProjectServlet?cur=<%=totalPage%>">尾页</a></td>
+					<td><a href="AllProjectServlet?cur=<%=cur + 1%>">下一页</a></td>
+					<td><a href="AllProjectServlet?cur=<%=totalPage%>">尾页</a></td>
 					<%
 						}
 					%>

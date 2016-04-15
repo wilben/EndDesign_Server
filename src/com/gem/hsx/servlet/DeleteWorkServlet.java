@@ -9,14 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.gem.hsx.bean.Designer;
 import com.gem.hsx.daoimpl.UserDaoImpl;
 
 /**
- * Servlet implementation class AddDesignerServlet
+ * Servlet implementation class AdduserServlet
  */
-@WebServlet("/ModifyDesignerServlet")
-public class ModifyDesignerServlet extends HttpServlet {
+@WebServlet("/DeleteWorkServlet")
+public class DeleteWorkServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -38,22 +37,12 @@ public class ModifyDesignerServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
-		Designer designer = new Designer();
-		designer.setUsername(request.getParameter("username"));
-		designer.setSex(request.getParameter("sex"));
-		designer.setAge(request.getParameter("age"));
-		designer.setRealname(request.getParameter("realname"));
-		designer.setRole(Integer.parseInt(request.getParameter("role")));
-		designer.setStyle(request.getParameter("style"));
-		designer.setConcept(request.getParameter("concept"));
-		designer.setMotto(request.getParameter("motto"));
-		designer.setWork(request.getParameter("work"));
-		designer.setPeriod(request.getParameter("period"));
-		designer.setArea(request.getParameter("area"));
-		if (new UserDaoImpl().modifyDesigner(designer)) {
-			session.setAttribute("result", "修改成功");
+		int workId = Integer.parseInt(request.getParameter("workId"));
+
+		if (new UserDaoImpl().deleteWork(workId)) {
+			session.setAttribute("result", "删除成功");
 		} else {
-			session.setAttribute("result", "修改失败");
+			session.setAttribute("result", "删除失败");
 		}
 		response.sendRedirect("result.jsp");
 	}

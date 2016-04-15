@@ -471,7 +471,7 @@ public class UserDaoImpl {
 	 *            项目状态
 	 * @return
 	 */
-	public Project getWorkDetail(int workId, int state) {
+	public Project getProjectDetail(int workId, int state) {
 		// TODO Auto-generated method stub
 		GetConn getConn = new GetConn();
 		ResultSet rs = null, rs1 = null;
@@ -482,7 +482,7 @@ public class UserDaoImpl {
 		try {
 			if (state == 1 || state == 2) {
 				PreparedStatement ps = conn
-						.prepareStatement("select * from workdetail_view where workId=?");
+						.prepareStatement("select * from projectdetail_view where workId=?");
 				ps.setInt(1, workId);
 				rs = ps.executeQuery();
 				if (rs.next()) {
@@ -520,6 +520,42 @@ public class UserDaoImpl {
 					project.setState(rs.getInt(5));
 					project.setStyle(rs.getString(8));
 				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return project;
+	}
+
+	public Project getWorkDetail(int workId) {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		ResultSet rs = null, rs1 = null;
+		ArrayList<String> list = new ArrayList<String>();
+		Project project = new Project();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from workdetail_view where workId=?");
+			ps.setInt(1, workId);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				project.setWorkId(rs.getInt(1));
+				project.setTitle(rs.getString(2));
+				project.setDesignername(rs.getString(3));
+				project.setTime(rs.getString(4));
+				project.setDescription(rs.getString(5));
+				project.setState(rs.getInt(6));
+				project.setUsername(rs.getString(7));
+				project.setStyle(rs.getString(8));
+				PreparedStatement ps1 = conn
+						.prepareStatement("select * from work_info where workId=?");
+				ps1.setInt(1, workId);
+				rs1 = ps1.executeQuery();
+				while (rs1.next()) {
+					list.add(rs1.getString(2));
+				}
+				project.setImageUrls(list);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -974,19 +1010,18 @@ public class UserDaoImpl {
 		Connection conn = getConn.getConnection();
 		try {
 			PreparedStatement ps = conn
-					.prepareStatement("update designer_info set sex=?,age=?,avatar=?,realname=?,role=?,style=?,concept=?,motto=?,work=?,period=?,area=? where username=?");
+					.prepareStatement("update designer_info set sex=?,age=?,realname=?,role=?,style=?,concept=?,motto=?,work=?,period=?,area=? where username=?");
 			ps.setString(1, designer.getSex());
 			ps.setString(2, designer.getAge());
-			ps.setString(3, designer.getAvatar());
-			ps.setString(4, designer.getRealname());
-			ps.setInt(5, designer.getRole());
-			ps.setString(6, designer.getStyle());
-			ps.setString(7, designer.getConcept());
-			ps.setString(8, designer.getMotto());
-			ps.setString(9, designer.getWork());
-			ps.setString(10, designer.getPeriod());
-			ps.setString(11, designer.getArea());
-			ps.setString(12, designer.getUsername());
+			ps.setString(3, designer.getRealname());
+			ps.setInt(4, designer.getRole());
+			ps.setString(5, designer.getStyle());
+			ps.setString(6, designer.getConcept());
+			ps.setString(7, designer.getMotto());
+			ps.setString(8, designer.getWork());
+			ps.setString(9, designer.getPeriod());
+			ps.setString(10, designer.getArea());
+			ps.setString(11, designer.getUsername());
 			i = ps.executeUpdate();
 			if (i > 0) {
 				b = true;
@@ -1320,4 +1355,173 @@ public class UserDaoImpl {
 		}
 		return list;
 	}
+
+	public boolean addWork(int workId, String description) {
+		// TODO Auto-generated method stub
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0;
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("insert project (workId,description)  values (?,?)");
+			ps.setInt(1, workId);
+			ps.setString(2, description);
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+
+	}
+
+	public int getTotalRecord(int i) {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		int num = 0;
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("SELECT * FROM (select * from work where state = ?) as a where workId not in(select workId from project)");
+			ps.setInt(1, 2);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				num = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return num;
+	}
+
+	public List<Project> selectAllProject(int i, int cur, int DATA_PER_PAGE) {
+		// TODO Auto-generated method stub
+		List<Project> list = new ArrayList<Project>();
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("SELECT * FROM (select * from work where state = ?) as a where workId not in(select workId from project) order by time limit ?,?");
+			ps.setInt(1, i);
+			ps.setInt(2, (cur - 1) * DATA_PER_PAGE);
+			ps.setInt(3, DATA_PER_PAGE);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Project project = new Project();
+				project.setWorkId(rs.getInt(1));
+				project.setTime(rs.getString(2));
+				project.setTitle(rs.getString(3));
+				project.setState(rs.getInt(5));
+				project.setUsername(rs.getString(6));
+				project.setDesignername(rs.getString(7));
+				list.add(project);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public int getWorkRecord() {
+		// TODO Auto-generated method stub
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		int num = 0;
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select count(*) from project ");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				num = rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return num;
+	}
+
+	public List<Project> selectAllWork(int cur, int DATA_PER_PAGE) {
+		// TODO Auto-generated method stub
+		List<Project> list = new ArrayList<Project>();
+		GetConn getConn = new GetConn();
+		Connection conn = getConn.getConnection();
+		try {
+			PreparedStatement ps = conn
+					.prepareStatement("select * from project as a,work as b where a.workId = b.workId  order by time limit ?,?");
+			ps.setInt(1, (cur - 1) * DATA_PER_PAGE);
+			ps.setInt(2, DATA_PER_PAGE);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Project project = new Project();
+				project.setWorkId(rs.getInt(2));
+				project.setTime(rs.getString(5));
+				project.setTitle(rs.getString(6));
+				project.setUsername(rs.getString(9));
+				project.setDesignername(rs.getString(10));
+				list.add(project);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public boolean modifyWork(int workId, String description) {
+		// TODO Auto-generated method stub
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0, k = 1;
+		PreparedStatement ps;
+		String s1 = null;
+		Connection conn = getConn.getConnection();
+		try {
+			s1 = "update project set description=? where workId=?";
+			ps = conn.prepareStatement(s1);
+			ps.setString(1, description);
+			ps.setInt(2, workId);
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+
+	public boolean deleteWork(int workId) {
+		// TODO Auto-generated method stub
+		boolean b = false;
+		GetConn getConn = new GetConn();
+		int i = 0, k = 1;
+		PreparedStatement ps;
+		String s1 = null;
+		Connection conn = getConn.getConnection();
+		try {
+			s1 = "delete from project where workId=?";
+			ps = conn.prepareStatement(s1);
+			ps.setInt(1, workId);
+			i = ps.executeUpdate();
+			if (i > 0) {
+				b = true;
+			} else {
+				b = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return b;
+	}
+
 }
