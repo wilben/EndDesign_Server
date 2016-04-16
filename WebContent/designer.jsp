@@ -1,5 +1,5 @@
-<%@page import="com.gem.hsx.servlet.Login"%>
-<%@page import="com.gem.hsx.bean.Designer"%>
+<%@page import="com.wilben.enddesign.servlet.Login"%>
+<%@page import="com.wilben.enddesign.bean.Designer"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();

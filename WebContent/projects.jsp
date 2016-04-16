@@ -1,4 +1,4 @@
-<%@page import="com.gem.hsx.bean.Project"%>
+<%@page import="com.wilben.enddesign.bean.Project"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
